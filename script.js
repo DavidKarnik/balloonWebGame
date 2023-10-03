@@ -16,10 +16,12 @@ const startX = canvas.width / 2;
 const startY = canvas.height;
 
 function createBalloon() {
-    const x = Math.random() * (canvas.width - balloonRadius * 2) + balloonRadius;
-    const y = canvas.height + balloonRadius;
-    const dy = -2; // Rychlost, kterou balónky stoupají nahoru
-    balloons.push({x, y, dy});
+    // const x = Math.random() * (canvas.width - balloonRadius * 2) + balloonRadius;
+    // const y = canvas.height + balloonRadius;
+    const x = 0 + balloonRadius;
+    const y = canvas.height / 2 + balloonRadius;
+    const speed = -2; // Rychlost, kterou se balónky pohybují
+    balloons.push({x, y, speed});
 }
 
 function createProjectile(x, y, vecX, vecY) {
@@ -34,6 +36,13 @@ function drawBalloon(x, y) {
     ctx.fillStyle = 'red';
     ctx.fill();
     ctx.closePath();
+}
+
+// Funkce pro výpočet y-ové pozice balónku na zakroucené trase
+function calculateBalloonYPosition(x) {
+    // Zde můžete použít matematické funkce pro výpočet pozice
+    // Například sinusová funkce pro zakroucený pohyb
+    return window.innerHeight / 2 + Math.sin(x / 100) * 100;
 }
 
 function drawProjectile(x, y) {
@@ -54,7 +63,11 @@ function updateGameArea() {
 
     // Vykreslit balónky
     for (let i = 0; i < balloons.length; i++) {
-        balloons[i].y += balloons[i].dy;
+        // calculate position of balloon by function
+        // Function for path of balloons trajectory
+        // f.e. sinus
+        balloons[i].y = calculateBalloonYPosition(balloons[i].x);
+        balloons[i].x -= balloons[i].speed;
         drawBalloon(balloons[i].x, balloons[i].y);
 
         // Detekce kolize s projektily
