@@ -76,15 +76,10 @@ function updateGameArea() {
 
     // Vykreslit projektily
     for (let i = 0; i < projectiles.length; i++) {
-        // x souřadnice se nemění, pouze stoupá nahoru po y
-        // Rychlost projektilu
-        // projectiles[i].y -= 5;
-        // projectiles[i].x -= 5;
 
         projectiles[i].x += projectiles[i].vecX;
         projectiles[i].y += projectiles[i].vecY;
         drawProjectile(projectiles[i].x, projectiles[i].y);
-        // drawProjectile(newX, newY);
     }
 
     // Vytvoření nového balónku každých 1000 ms
@@ -119,8 +114,6 @@ canvas.addEventListener('click', (event) => {
     const velocityY = (dy / distance) * speed;
 
     // Projektil se pohybuje směrem k myši s rychlostí speed
-    // updateProjectilePosition(velocityX, velocityY);
-    // createProjectile(x, y);
     createProjectile(startX, startY, velocityX, velocityY);
 });
 
