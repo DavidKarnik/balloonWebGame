@@ -11,15 +11,21 @@ let score = 0;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// Balloon starting position
+const startX = canvas.width / 2;
+const startY = canvas.height;
+
 function createBalloon() {
     const x = Math.random() * (canvas.width - balloonRadius * 2) + balloonRadius;
     const y = canvas.height + balloonRadius;
     const dy = -2; // Rychlost, kterou balónky stoupají nahoru
-    balloons.push({ x, y, dy });
+    balloons.push({x, y, dy});
 }
 
-function createProjectile(x, y) {
-    projectiles.push({ x, y });
+function createProjectile(x, y, vecX, vecY) {
+    // x, y - start position
+    // vecX, vecY - movement vector
+    projectiles.push({x, y, vecX, vecY});
 }
 
 function drawBalloon(x, y) {
@@ -71,8 +77,14 @@ function updateGameArea() {
     // Vykreslit projektily
     for (let i = 0; i < projectiles.length; i++) {
         // x souřadnice se nemění, pouze stoupá nahoru po y
-        projectiles[i].y -= 5; // Rychlost projektilu
+        // Rychlost projektilu
+        // projectiles[i].y -= 5;
+        // projectiles[i].x -= 5;
+
+        projectiles[i].x += projectiles[i].vecX;
+        projectiles[i].y += projectiles[i].vecY;
         drawProjectile(projectiles[i].x, projectiles[i].y);
+        // drawProjectile(newX, newY);
     }
 
     // Vytvoření nového balónku každých 1000 ms
@@ -85,15 +97,31 @@ function updateGameArea() {
     // Write score info
     ctx.font = '30px Arial';
     ctx.fillStyle = 'black';
-    ctx.fillText('Score: ' + score, 10, 40);
+    ctx.fillText('Score: ' + score, 20, 40);
 
     requestAnimationFrame(updateGameArea); // "nekonečná" smyčka
 }
 
 canvas.addEventListener('click', (event) => {
-    const x = event.clientX;
-    const y = event.clientY;
-    createProjectile(x, y);
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
+
+    // lineární transformace pro pohyb projektilu
+
+    // Výpočet směru pohybu projektilu
+    const dx = mouseX - (canvas.width / 2); // Rozdíl x-ových souřadnic
+    const dy = mouseY - canvas.height; // Rozdíl y-ových souřadnic
+    const distance = Math.sqrt(dx * dx + dy * dy); // Vzdálenost mezi bodem střelby a myší
+
+    // Normalizace směru na délku 1 a následná aktualizace polohy projektilu
+    const speed = 5; // Rychlost pohybu projektilu
+    const velocityX = (dx / distance) * speed;
+    const velocityY = (dy / distance) * speed;
+
+    // Projektil se pohybuje směrem k myši s rychlostí speed
+    // updateProjectilePosition(velocityX, velocityY);
+    // createProjectile(x, y);
+    createProjectile(startX, startY, velocityX, velocityY);
 });
 
-updateGameArea();
+updateGameArea(); // play
