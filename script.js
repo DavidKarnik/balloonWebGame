@@ -40,9 +40,12 @@ function drawBalloon(x, y) {
 
 // Funkce pro výpočet y-ové pozice balónku na zakroucené trase
 function calculateBalloonYPosition(x) {
-    // Například sinusová funkce pro zakroucený pohyb
-    return window.innerHeight / 2 + Math.sin(x / 100) * 100;
+    // Zde změňte rozsah sinusového pohybu
+    const amplitude = 400; // Amplituda sinusového pohybu
+    const frequency = 0.008; // Frekvence sinusového pohybu
+    return window.innerHeight / 2 + amplitude * Math.sin(frequency * x);
 }
+
 
 function drawProjectile(x, y) {
     ctx.beginPath();
