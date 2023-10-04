@@ -8,17 +8,18 @@ let balloons = [];
 let projectiles = [];
 let score = 0;
 
+// Canvas parameters
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 // Balloon starting position
-const startX = canvas.width / 2;
-const startY = canvas.height;
+startX = canvas.width / 2;
+startY = canvas.height;
 
 function createBalloon() {
     // const x = Math.random() * (canvas.width - balloonRadius * 2) + balloonRadius;
     // const y = canvas.height + balloonRadius;
-    const x = 0 + balloonRadius;
+    const x = 0 - balloonRadius;
     const y = canvas.height / 2 + balloonRadius;
     const speed = -2; // Rychlost, kterou se balónky pohybují
     balloons.push({x, y, speed});
@@ -82,6 +83,13 @@ function updateGameArea() {
         return;
     }
 
+    // Refresh window parameters if changed
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    // Balloon starting position
+    startX = canvas.width / 2;
+    startY = canvas.height;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawPath();
@@ -108,11 +116,17 @@ function updateGameArea() {
                 break;
             }
         }
+
+        // Detekce kolize balonku se stěnou
+        if(balloons[i].x >= canvas.width) {
+            balloons.splice(i, 1);
+            i--; // o balonek méně
+            console.log("balloon touch wall!")
+        }
     }
 
     // Vykreslit projektily
     for (let i = 0; i < projectiles.length; i++) {
-
         projectiles[i].x += projectiles[i].vecX;
         projectiles[i].y += projectiles[i].vecY;
         drawProjectile(projectiles[i].x, projectiles[i].y);
@@ -130,14 +144,14 @@ function updateGameArea() {
     ctx.fillStyle = 'black';
     ctx.fillText('Score: ' + score, 20, 40);
 
-    requestAnimationFrame(updateGameArea); // "nekonečná" smyčka
+    requestAnimationFrame(updateGameArea); // "nekonečná" smyčka, refresh by fps rate
 }
 
 canvas.addEventListener('click', (event) => {
     const mouseX = event.clientX;
     const mouseY = event.clientY;
 
-    // lineární transformace pro pohyb projektilu
+    // výpočet lineární transformace pro pohyb projektilu
 
     // Výpočet směru pohybu projektilu
     const dx = mouseX - (canvas.width / 2); // Rozdíl x-ových souřadnic
