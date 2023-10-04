@@ -2,5 +2,5 @@
 // entita -> samostatná střílna
 
 let entities = [];
-let projectiles = [];
+// let projectiles = [];
 

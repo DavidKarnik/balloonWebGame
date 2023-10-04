@@ -121,12 +121,23 @@ function updateGameArea() {
         }
 
         // Exception - balloon[i] already deleted -> undefined
-        if(!exceptionPoppedBalloon) {
+        if (!exceptionPoppedBalloon) {
             // Detekce kolize balonku se stěnou
-            if(balloons[i].x >= canvas.width) {
+            if (balloons[i].x >= canvas.width) {
                 balloons.splice(i, 1);
                 i--; // o balonek méně
-                console.log("balloon touch wall!")
+                // console.log("balloon touch wall!")
+            }
+        }
+        // Projectile touch the wall ?
+        for (let j = 0; j < projectiles.length; j++) {
+            // Detekce kolize projectile se stěnou (right, bottom, left, up)
+            if (projectiles[j].x > canvas.width ||
+                projectiles[j].y > canvas.height ||
+                projectiles[j].x < 0 ||
+                projectiles[j].y < 0) {
+                projectiles.splice(j, 1);
+                // console.log("projectiles touch wall!")
             }
         }
     }
