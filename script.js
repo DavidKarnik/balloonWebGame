@@ -94,8 +94,10 @@ function updateGameArea() {
 
     drawPath();
 
+    let exceptionPoppedBalloon = false;
     // Vykreslit balónky
     for (let i = 0; i < balloons.length; i++) {
+        exceptionPoppedBalloon = false;
         // calculate position of balloon by function
         balloons[i].y = calculateBalloonYPosition(balloons[i].x);
         balloons[i].x -= balloons[i].speed;
@@ -113,15 +115,19 @@ function updateGameArea() {
                 projectiles.splice(j, 1);
                 score++;
                 i--; // o balonek méně
+                exceptionPoppedBalloon = true;
                 break;
             }
         }
 
-        // Detekce kolize balonku se stěnou
-        if(balloons[i].x >= canvas.width) {
-            balloons.splice(i, 1);
-            i--; // o balonek méně
-            console.log("balloon touch wall!")
+        // Exception - balloon[i] already deleted -> undefined
+        if(!exceptionPoppedBalloon) {
+            // Detekce kolize balonku se stěnou
+            if(balloons[i].x >= canvas.width) {
+                balloons.splice(i, 1);
+                i--; // o balonek méně
+                console.log("balloon touch wall!")
+            }
         }
     }
 
