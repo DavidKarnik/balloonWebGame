@@ -40,7 +40,6 @@ function drawBalloon(x, y) {
 
 // Funkce pro výpočet y-ové pozice balónku na zakroucené trase
 function calculateBalloonYPosition(x) {
-    // Zde můžete použít matematické funkce pro výpočet pozice
     // Například sinusová funkce pro zakroucený pohyb
     return window.innerHeight / 2 + Math.sin(x / 100) * 100;
 }
@@ -53,6 +52,27 @@ function drawProjectile(x, y) {
     ctx.closePath();
 }
 
+function drawPath() {
+    let counter = 0, x = 0, y = 180;
+    //100 iterations
+    const increase = 90 / 180 * Math.PI / 10;
+    let i;
+    for (i = 0; i <= canvas.width; i += 10) {
+        // place the cursor from the point the line should be started
+        ctx.moveTo(x, y);
+        x = i;
+        // amplitude
+        y = calculateBalloonYPosition(x);
+        counter += increase;
+        ctx.lineWidth = 2;
+        // draw a line from current cursor position to the provided x,y coordinate
+        ctx.lineTo(x, y);
+        // alert(" x : " + x + " y : " + y);
+    }
+    // add stroke to the line -> draw
+    ctx.stroke();
+}
+
 function updateGameArea() {
     if (score > 10) {
         // Hra se zastaví, pokud je skóre větší než 10
@@ -61,11 +81,11 @@ function updateGameArea() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    drawPath();
+
     // Vykreslit balónky
     for (let i = 0; i < balloons.length; i++) {
         // calculate position of balloon by function
-        // Function for path of balloons trajectory
-        // f.e. sinus
         balloons[i].y = calculateBalloonYPosition(balloons[i].x);
         balloons[i].x -= balloons[i].speed;
         drawBalloon(balloons[i].x, balloons[i].y);
