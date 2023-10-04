@@ -13,8 +13,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 // Balloon starting position
-startX = canvas.width / 2;
-startY = canvas.height;
+let startX = canvas.width / 2;
+let startY = canvas.height;
 
 function createBalloon() {
     // const x = Math.random() * (canvas.width - balloonRadius * 2) + balloonRadius;
@@ -86,7 +86,7 @@ function updateGameArea() {
     // Refresh window parameters if changed
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    // Balloon starting position
+    // Refresh Balloon starting position
     startX = canvas.width / 2;
     startY = canvas.height;
 
