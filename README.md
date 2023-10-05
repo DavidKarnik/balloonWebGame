@@ -1,5 +1,6 @@
 # Balloon Web Game
-Balloon Web Game
+
+My project of web game using just .html .css and plain .js
 
 ## Architecture
 
