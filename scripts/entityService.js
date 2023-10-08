@@ -1,7 +1,9 @@
 // Script pro logiku a operace entit (nákup, placement, akce)
 // entita -> samostatná střílna
 
-let entities = [];
+let entities = [
+    // {x,y,range,type,level,damage,fireRate}
+];
 
 export function drawBuyMenu(ctx, canvas) {
     const squareSize = 200; // Velikost čtverce
@@ -9,7 +11,7 @@ export function drawBuyMenu(ctx, canvas) {
 
     // Vypočítat pozice čtverců pro zarovnání doprostřed
     const totalWidth = squareSize * 4;
-    const startSquareX = (canvas.width - totalWidth) / 2;
+    const startSquareX = ((canvas.width - totalWidth) / 2) - (padding * 2);
 
     // nákupní lišta (Čtverce)
     for (let i = 0; i < 4; i++) {

@@ -133,7 +133,7 @@ function updateGameArea() {
     drawPath();
 
     // drawSquare (shop) ---------------------------------------------------------------------
-    drawBuyMenu(ctx, canvas)
+    // drawBuyMenu(ctx, canvas)
 
     // drawCastle and HealthBar ---------------------------------------------------------------------
     let xH = canvas.width / 2; // Pozice X health baru
