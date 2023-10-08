@@ -6,11 +6,14 @@ My project of web game using just .html .css and plain .js
 
 ```bash
 └── balloonWebGame/
-    ├── .gitignore
-    ├── README.md
-    ├── index.html
+    ├── img/
+    │   └── xxx
     ├── scripts/
     │   ├── entityService.js
+    │   ├── healthService.js
     │   └── script.js
+    ├── .gitignore
+    ├── index.html
+    ├── README.md
     └── style.css
 ```
