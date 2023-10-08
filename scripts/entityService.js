@@ -6,7 +6,7 @@ let entities = [
 ];
 
 export function drawBuyMenu(ctx, canvas) {
-    const squareSize = 200; // Velikost čtverce
+    const squareSize = 150; // Velikost čtverce
     const padding = 40; // Odsazení mezi čtverci
 
     // Vypočítat pozice čtverců pro zarovnání doprostřed

@@ -113,7 +113,7 @@ function drawPath() {
  * Main function for Refresh Game Canvas and all data
  */
 function updateGameArea() {
-    // GAME END conditions
+    // GAME END conditions --------------------------------------------------------------------------
     if (score > 10 ||
     getCurrentHealth() < 0) {
         // Hra se zastaví, pokud je skóre větší než 10
@@ -129,19 +129,19 @@ function updateGameArea() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // drawPath ---------------------------------------------------------------------
+    // drawPath -------------------------------------------------------------------------------------
     drawPath();
 
-    // drawSquare (shop) ---------------------------------------------------------------------
-    // drawBuyMenu(ctx, canvas)
+    // drawSquare (shop) ----------------------------------------------------------------------------
+    drawBuyMenu(ctx, canvas)
 
     // drawCastle and HealthBar ---------------------------------------------------------------------
     let xH = canvas.width / 2; // Pozice X health baru
     let yH = 30; // Pozice Y health baru
     drawHealthBar(ctx,xH,yH)
 
+    // Vykreslit balónky ----------------------------------------------------------------------------
     let exceptionPoppedBalloon = false;
-    // Vykreslit balónky
     for (let i = 0; i < balloons.length; i++) {
         exceptionPoppedBalloon = false;
         // calculate position of balloon by function
@@ -166,7 +166,7 @@ function updateGameArea() {
             }
         }
 
-        // Exception - balloon[i] already deleted -> undefined
+        // Exception - balloon[i] already deleted in this loop -> undefined ------------------------
         if (!exceptionPoppedBalloon) {
             // Detekce kolize balonku se stěnou
             if (balloons[i].x >= canvas.width) {
@@ -176,7 +176,8 @@ function updateGameArea() {
                 // console.log("balloon touch wall!")
             }
         }
-        // Projectile touch the wall ?
+
+        // Projectile touch the wall ? -------------------------------------------------------------
         for (let j = 0; j < projectiles.length; j++) {
             // Detekce kolize projectile se stěnou (right, bottom, left, up)
             if (projectiles[j].x > canvas.width ||
@@ -189,25 +190,27 @@ function updateGameArea() {
         }
     }
 
-    // Vykreslit projektily
+    // Vykreslit projektily ------------------------------------------------------------------------
     for (let i = 0; i < projectiles.length; i++) {
         projectiles[i].x += projectiles[i].vecX;
         projectiles[i].y += projectiles[i].vecY;
         drawProjectile(projectiles[i].x, projectiles[i].y);
     }
 
-    // Vytvoření nového balónku každých 1000 ms
+    // Vytvoření nového balónku --------------------------------------------------------------------
     // setInterval(createBalloon, 1000);
     // Vytvořit nový balónek s pravděpodobností 2 % v každém snímku
     if (Math.random() < 0.02) {
         createBalloon();
     }
 
-    // Write score info
+    // Write score info ----------------------------------------------------------------------------
     ctx.font = '30px Arial';
     ctx.fillStyle = 'black';
     ctx.fillText('Score: ' + score, 20, 40);
 
+
+    // ---------------------------------------------------------------------------------------------
     requestAnimationFrame(updateGameArea); // "nekonečná" smyčka, refresh by fps rate
 }
 
