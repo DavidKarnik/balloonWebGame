@@ -9,6 +9,9 @@ const projectileRadius = 5;
 
 let balloons = [];
 let projectiles = [];
+
+// Player score
+// TODO add buy logic for entities
 let score = 0;
 
 // Canvas parameters
@@ -19,6 +22,9 @@ canvas.height = window.innerHeight;
 let startX = canvas.width / 2;
 let startY = canvas.height;
 
+/**
+ * Create new Balloon and save to the array
+ */
 function createBalloon() {
     // const x = Math.random() * (canvas.width - balloonRadius * 2) + balloonRadius;
     // const y = canvas.height + balloonRadius;
@@ -28,12 +34,24 @@ function createBalloon() {
     balloons.push({x, y, speed});
 }
 
+/**
+ * Create new Projectile and save to the array
+ * @param x - x start coordination
+ * @param y - y start coordination
+ * @param vecX - x coordination of vector for movement
+ * @param vecY - y coordination of vector for movement
+ */
 function createProjectile(x, y, vecX, vecY) {
     // x, y - start position
     // vecX, vecY - movement vector
     projectiles.push({x, y, vecX, vecY});
 }
 
+/**
+ * Draw Balloon to canvas
+ * @param x - x coordination of balloon
+ * @param y - y coordination of balloon
+ */
 function drawBalloon(x, y) {
     ctx.beginPath();
     ctx.arc(x, y, balloonRadius, 0, Math.PI * 2);
@@ -42,7 +60,11 @@ function drawBalloon(x, y) {
     ctx.closePath();
 }
 
-// Funkce pro výpočet y-ové pozice balónku na zakroucené trase
+/**
+ * Funkce pro výpočet y-ové pozice balónku na zakroucené trase
+ * @param x - x coordination of balloon
+ * @return y - by sinus fn(x)
+ */
 function calculateBalloonYPosition(x) {
     // Zde změňte rozsah sinusového pohybu
     const amplitude = 400; // Amplituda sinusového pohybu
@@ -50,7 +72,11 @@ function calculateBalloonYPosition(x) {
     return window.innerHeight / 2 + amplitude * Math.sin(frequency * x);
 }
 
-
+/**
+ * Draw Projectile to canvas
+ * @param x - x coordination of projectile
+ * @param y - y coordination of projectile
+ */
 function drawProjectile(x, y) {
     ctx.beginPath();
     ctx.arc(x, y, projectileRadius, 0, Math.PI * 2);
@@ -59,6 +85,9 @@ function drawProjectile(x, y) {
     ctx.closePath();
 }
 
+/**
+ * Draw Path for graphical visualisation
+ */
 function drawPath() {
     let counter = 0, x = 0, y = 180;
     //100 iterations
@@ -80,6 +109,9 @@ function drawPath() {
     ctx.stroke();
 }
 
+/**
+ * Main function for Refresh Game Canvas and all data
+ */
 function updateGameArea() {
     // GAME END conditions
     if (score > 10 ||
@@ -104,9 +136,7 @@ function updateGameArea() {
     drawBuyMenu(ctx, canvas)
 
     // drawCastle and HealthBar ---------------------------------------------------------------------
-    // drawCastle(ctx);
     let xH = canvas.width / 2; // Pozice X health baru
-    // console.log(ctx.width)
     let yH = 30; // Pozice Y health baru
     drawHealthBar(ctx,xH,yH)
 
@@ -181,6 +211,9 @@ function updateGameArea() {
     requestAnimationFrame(updateGameArea); // "nekonečná" smyčka, refresh by fps rate
 }
 
+/**
+ * Create Projectile by Mouse Click event
+ */
 canvas.addEventListener('click', (event) => {
     const mouseX = event.clientX;
     const mouseY = event.clientY;
