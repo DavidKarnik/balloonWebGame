@@ -1,3 +1,6 @@
+import { drawSquare } from './entityService.js';
+import {dealDamage, drawCastle, drawHealthBar, getCurrentHealth} from "./healthService.js"; // Import funkce
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d'); // context of canvas
 
@@ -78,7 +81,9 @@ function drawPath() {
 }
 
 function updateGameArea() {
-    if (score > 10) {
+    // GAME END conditions
+    if (score > 10 ||
+    getCurrentHealth() < 0) {
         // Hra se zastaví, pokud je skóre větší než 10
         return;
     }
@@ -92,7 +97,30 @@ function updateGameArea() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // drawPath ---------------------------------------------------------------------
     drawPath();
+
+    // drawSquare (shop) ---------------------------------------------------------------------
+    const squareSize = 200; // Velikost čtverce
+    const padding = 50; // Odsazení mezi čtverci
+
+// Vypočítat pozice čtverců pro zarovnání doprostřed
+    const totalWidth = squareSize * 4;
+    const startSquareX = (canvas.width - totalWidth) / 2;
+
+    // nákupní lišta
+    for (let i = 0; i < 4; i++) {
+        // odsazení
+        let xPadd = startSquareX + i * (squareSize + padding); // Aktualizovat pozici pro každý čtverec
+        drawSquare(ctx, xPadd, canvas.height - squareSize - 10, squareSize);
+    }
+
+    // drawCastle and HealthBar ---------------------------------------------------------------------
+    // drawCastle(ctx);
+    let xH = canvas.width / 2; // Pozice X health baru
+    // console.log(ctx.width)
+    let yH = 30; // Pozice Y health baru
+    drawHealthBar(ctx,xH,yH)
 
     let exceptionPoppedBalloon = false;
     // Vykreslit balónky
@@ -126,6 +154,7 @@ function updateGameArea() {
             if (balloons[i].x >= canvas.width) {
                 balloons.splice(i, 1);
                 i--; // o balonek méně
+                dealDamage(10);
                 // console.log("balloon touch wall!")
             }
         }
