@@ -1,7 +1,6 @@
 // Script pro logiku a operace entit (nákup, placement, akce)
 // entita -> samostatná střílna
 
-// let entities = [];
 // // let projectiles = [];
 // const squareSize = 50; // Velikost čtverce
 //
@@ -13,7 +12,25 @@
 // for picture and select
 // entityService.js
 
-export function drawSquare(ctx, x, y, size) {
+let entities = [];
+
+export function drawBuyMenu(ctx, canvas) {
+    const squareSize = 200; // Velikost čtverce
+    const padding = 40; // Odsazení mezi čtverci
+
+    // Vypočítat pozice čtverců pro zarovnání doprostřed
+    const totalWidth = squareSize * 4;
+    const startSquareX = (canvas.width - totalWidth) / 2;
+
+    // nákupní lišta (Čtverce)
+    for (let i = 0; i < 4; i++) {
+        // odsazení
+        let xPadd = startSquareX + i * (squareSize + padding); // Aktualizovat pozici pro každý čtverec
+        drawSquare(ctx, xPadd, canvas.height - squareSize - 10, squareSize);
+    }
+}
+
+function drawSquare(ctx, x, y, size) {
     ctx.fillStyle = 'white'; // Barva vnitřku čtverce
     ctx.strokeStyle = 'black'; // Barva obrysu čtverce
     ctx.lineWidth = 2; // Šířka čáry obrysu
@@ -23,4 +40,5 @@ export function drawSquare(ctx, x, y, size) {
     ctx.fill();
     ctx.stroke();
 }
+
 

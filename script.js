@@ -1,4 +1,4 @@
-import { drawSquare } from './entityService.js';
+import {drawBuyMenu} from './entityService.js';
 import {dealDamage, drawCastle, drawHealthBar, getCurrentHealth} from "./healthService.js"; // Import funkce
 
 const canvas = document.getElementById('gameCanvas');
@@ -101,19 +101,7 @@ function updateGameArea() {
     drawPath();
 
     // drawSquare (shop) ---------------------------------------------------------------------
-    const squareSize = 200; // Velikost čtverce
-    const padding = 50; // Odsazení mezi čtverci
-
-// Vypočítat pozice čtverců pro zarovnání doprostřed
-    const totalWidth = squareSize * 4;
-    const startSquareX = (canvas.width - totalWidth) / 2;
-
-    // nákupní lišta
-    for (let i = 0; i < 4; i++) {
-        // odsazení
-        let xPadd = startSquareX + i * (squareSize + padding); // Aktualizovat pozici pro každý čtverec
-        drawSquare(ctx, xPadd, canvas.height - squareSize - 10, squareSize);
-    }
+    drawBuyMenu(ctx, canvas)
 
     // drawCastle and HealthBar ---------------------------------------------------------------------
     // drawCastle(ctx);
