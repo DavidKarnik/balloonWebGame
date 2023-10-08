@@ -23,7 +23,7 @@ export function drawHealthBar(ctx, x, y) {
     let newHealthWidth = (newHealth / 100) * barWidth;
 
     // Pozice X health baru
-    let barX = x;
+    let barX = x - (barWidth / 2);
 
     // Pozice Y health baru
     let barY = y;
