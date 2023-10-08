@@ -11,6 +11,7 @@ My project of web game using just .html .css and plain .js
     ├── index.html
     ├── scripts/
     │   ├── entityService.js
+    │   ├── healthService.js
     │   └── script.js
     └── style.css
 ```
