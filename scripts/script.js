@@ -18,7 +18,7 @@ let score = 0;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Balloon starting position
+// Projectile starting position
 let startX = canvas.width / 2;
 let startY = canvas.height;
 
@@ -30,7 +30,7 @@ function createBalloon() {
     // const y = canvas.height + balloonRadius;
     const x = 0 - balloonRadius;
     const y = canvas.height / 2 + balloonRadius;
-    const speed = -2; // Rychlost, kterou se balónky pohybují
+    const speed = -1; // Rychlost, kterou se balónky pohybují
     balloons.push({x, y, speed});
 }
 
@@ -120,9 +120,11 @@ function updateGameArea() {
 
 
     // GAME END conditions --------------------------------------------------------------------------
+    // Hra se zastaví, pokud je skóre větší než 10
+    // Hra se zastaví, životy jsou === 0
     if (score > 10 ||
         getCurrentHealth() === 0) {
-        // Hra se zastaví, pokud je skóre větší než 10
+        // výsledný healtBar
         drawHealthBar(ctx, xH, yH)
         return;
     }
