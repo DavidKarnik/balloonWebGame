@@ -93,7 +93,8 @@ function drawPath() {
     //100 iterations
     const increase = 90 / 180 * Math.PI / 10;
     let i;
-    for (i = 0; i <= canvas.width; i += 10) {
+    let pathWidth = canvas.width; // - (0.1 * canvas.width);
+    for (i = 0; i <= pathWidth; i += 10) {
         // place the cursor from the point the line should be started
         ctx.moveTo(x, y);
         x = i;
@@ -113,10 +114,16 @@ function drawPath() {
  * Main function for Refresh Game Canvas and all data
  */
 function updateGameArea() {
+    // GAME variables -------------------------------------------------------------------------------
+    let xH = canvas.width / 2; // Pozice X health baru
+    let yH = 30; // Pozice Y health baru
+
+
     // GAME END conditions --------------------------------------------------------------------------
     if (score > 10 ||
-    getCurrentHealth() < 0) {
+        getCurrentHealth() === 0) {
         // Hra se zastaví, pokud je skóre větší než 10
+        drawHealthBar(ctx, xH, yH)
         return;
     }
 
@@ -136,9 +143,7 @@ function updateGameArea() {
     drawBuyMenu(ctx, canvas)
 
     // drawCastle and HealthBar ---------------------------------------------------------------------
-    let xH = canvas.width / 2; // Pozice X health baru
-    let yH = 30; // Pozice Y health baru
-    drawHealthBar(ctx,xH,yH)
+    drawHealthBar(ctx, xH, yH)
 
     // Vykreslit balónky ----------------------------------------------------------------------------
     let exceptionPoppedBalloon = false;
