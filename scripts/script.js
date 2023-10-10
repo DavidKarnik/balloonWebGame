@@ -237,4 +237,5 @@ canvas.addEventListener('click', (event) => {
     createProjectile(startX, startY, velocityX, velocityY);
 });
 
-updateGameArea(); // play
+// play --------------------------------------------------------------------------------------------
+updateGameArea();
