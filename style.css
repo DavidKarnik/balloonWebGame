@@ -8,5 +8,5 @@ body {
 canvas {
     display: block;
     margin: 0 auto;
-    background-color: #ffffff;
+    background: linear-gradient(to right top, #c2c6ce, #a2d4e7, #79e4dd, #91edaa, #dde86b);
 }

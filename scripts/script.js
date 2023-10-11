@@ -67,8 +67,8 @@ function drawBalloon(x, y) {
  */
 function calculateBalloonYPosition(x) {
     // Zde změňte rozsah sinusového pohybu
-    const amplitude = 400; // Amplituda sinusového pohybu
-    const frequency = 0.008; // Frekvence sinusového pohybu
+    const amplitude = 200; // Amplituda sinusového pohybu
+    const frequency = 0.01; // Frekvence sinusového pohybu
     return window.innerHeight / 2 + amplitude * Math.sin(frequency * x);
 }
 
