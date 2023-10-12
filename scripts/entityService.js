@@ -1,11 +1,13 @@
 // Script pro logiku a operace entit (nákup, placement, akce)
 // entita -> samostatná střílna
 
-const shopCanvas = document.getElementById('shopCanvas');
+const shopCanvas = document.getElementById('gameCanvas');
 const ctxShop = shopCanvas.getContext('2d'); // context of canvas
 
 shopCanvas.width = window.innerWidth;
 shopCanvas.height = window.innerHeight;
+
+let shopEntity = []; // {x, y, size of square}
 
 let entities = [
     // {x,y,range,type,level,damage,fireRate}
@@ -25,8 +27,16 @@ export function drawBuyMenu(ctxMain, canvasMain) {
     // nákupní lišta (Čtverce)
     for (let i = 0; i < 4; i++) {
         // odsazení
-        let xPadd = startSquareX + i * (squareSize + padding); // Aktualizovat pozici pro každý čtverec
-        drawSquare(ctxMain, xPadd, canvasMain.height - squareSize - 10, squareSize, ballColors[i]);
+        let x = startSquareX + i * (squareSize + padding); // Aktualizovat pozici pro každý čtverec
+        let y = canvasMain.height - squareSize - 10;
+        drawSquare(ctxMain, x, y, squareSize, ballColors[i]);
+        // shopEntity[i] = {xPadd, yHelp, squareSize}; // x, y, size of square
+        shopEntity.push({x, y, squareSize});
+        // console.log('shopEntity created -> ' + xPadd, yHelp, squareSize)
+        // shopEntity created -> 793 675 150
+        // shopEntity created -> 223 675 150
+        // shopEntity created -> 413 675 150
+        // shopEntity created -> 603 675 150
     }
 
     // entity
@@ -66,18 +76,21 @@ function drawSquare(ctxMain, x, y, size, ballColor) {
 // const canvasWidth = mainCanvas.width;
 // const canvasHeight = mainCanvas.height;
 //
-// let selectedEntity = null; // Vybraná entita z nákupního menu
+let selectedEntity = null; // Vybraná entita z nákupního menu
 //
-// // Přidání události pro kliknutí na nákupním menu
-// shopCanvas.addEventListener('click', (event) => {
-//     const mouseX = event.clientX - shopCanvas.getBoundingClientRect().left;
-//     const mouseY = event.clientY - shopCanvas.getBoundingClientRect().top;
-//
-//     // Zde můžete zjistit, která entita byla vybrána na základě pozice kliku
-//     if (isEntityClicked(mouseX, mouseY)) {
-//         selectedEntity = entities[/* index vybrané entity */];
-//     }
-// });
+// Přidání události pro kliknutí na nákupním menu
+shopCanvas.addEventListener('click', (event) => {
+    const mouseX = event.clientX //- shopCanvas.getBoundingClientRect().left;
+    const mouseY = event.clientY //- shopCanvas.getBoundingClientRect().top;
+
+    console.log('mouseX -> ' + mouseX)
+    console.log('mouseY -> ' + mouseY)
+
+    // Zde můžete zjistit, která entita byla vybrána na základě pozice kliku
+    if (isEntityClicked(mouseX, mouseY)) {
+        // selectedEntity = entities[/* index vybrané entity */];
+    }
+});
 //
 // // Přidání události pro kliknutí na hlavním plátně
 // mainCanvas.addEventListener('click', (event) => {
@@ -98,21 +111,39 @@ function drawSquare(ctxMain, x, y, size, ballColor) {
 // });
 //
 // // Funkce pro zjištění, zda byla entita v nákupním menu kliknuta
-// function isEntityClicked(mouseX, mouseY) {
-//     for (let i = 0; i < entities.length; i++) {
-//         const entity = entities[i];
-//         // Zde můžete prověřit, zda je klik na pozici entity v nákupním menu
-//         if (
-//             mouseX >= entity.x &&
-//             mouseX <= entity.x + entity.width &&
-//             mouseY >= entity.y &&
-//             mouseY <= entity.y + entity.height
-//         ) {
-//             return true; // Kliknuto na entitu
-//         }
-//     }
-//     return false; // Kliknuto mimo entity
-// }
+function isEntityClicked(mouseX, mouseY) {
+    for (let i = 0; i < shopEntity.length; i++) {
+        const entity = entities[i];
+        // Zde můžete prověřit, zda je klik na pozici entity v nákupním menu
+        if (
+            mouseX >= shopEntity[i].x &&
+            mouseX <= shopEntity[i].x + shopEntity[i].squareSize &&
+            mouseY >= shopEntity[i].y &&
+            mouseY <= shopEntity[i].y + shopEntity[i].squareSize
+        ) {
+            // console.log('Entity is clicked ! number: ' + i)
+
+            return true; // Kliknuto na entitu
+        }
+    }
+    // console.log('Entity is NOT clicked !')
+    // console.log('shopEntity[0].x -> ' + shopEntity[0].x)
+    // console.log('shopEntity[0].y -> ' + shopEntity[0].y)
+    // console.log('shopEntity[0].squareSize -> ' + shopEntity[0].squareSize)
+    //
+    // console.log('shopEntity[1].x -> ' + shopEntity[1].x)
+    // console.log('shopEntity[1].y -> ' + shopEntity[1].y)
+    // console.log('shopEntity[1].squareSize -> ' + shopEntity[1].squareSize)
+    //
+    // console.log('shopEntity[2].x -> ' + shopEntity[2].x)
+    // console.log('shopEntity[2].y -> ' + shopEntity[2].y)
+    // console.log('shopEntity[2].squareSize -> ' + shopEntity[2].squareSize)
+    //
+    // console.log('shopEntity[3].x -> ' + shopEntity[3].x)
+    // console.log('shopEntity[3].y -> ' + shopEntity[3].y)
+    // console.log('shopEntity[3].squareSize -> ' + shopEntity[3].squareSize)
+    return false; // Kliknuto mimo entity
+}
 //
 // // Hlavní herní smyčka
 // function gameLoop() {
