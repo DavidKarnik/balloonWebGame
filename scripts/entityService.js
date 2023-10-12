@@ -122,7 +122,7 @@ function isEntityClicked(mouseX, mouseY) {
             mouseY <= shopEntity[i].y + shopEntity[i].squareSize
         ) {
             // console.log('Entity is clicked ! number: ' + i)
-
+            selectedEntity = i; // number of selected entity
             return true; // Kliknuto na entitu
         }
     }
