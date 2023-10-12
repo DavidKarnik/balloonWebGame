@@ -1,4 +1,4 @@
-import {drawBuyMenu} from './entityService.js';
+import {drawBuyMenu, drawEntities} from './entityService.js';
 import {dealDamage, drawCastle, drawHealthBar, getCurrentHealth} from "./healthService.js"; // Import funkce
 
 const canvas = document.getElementById('gameCanvas');
@@ -143,6 +143,8 @@ function updateGameArea() {
 
     // drawSquare (shop) ----------------------------------------------------------------------------
     drawBuyMenu(ctx, canvas)
+
+    drawEntities(ctx)
 
     // drawCastle and HealthBar ---------------------------------------------------------------------
     drawHealthBar(ctx, xH, yH)

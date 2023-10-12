@@ -11,7 +11,7 @@ let shopEntity = []; // {x, y, size of square}
 
 let entities = [
     // {x,y,range,type,level,damage,fireRate}
-    {}
+    // {}
 ];
 
 export function drawBuyMenu(ctxMain, canvasMain) {
@@ -69,25 +69,34 @@ function drawSquare(ctxMain, x, y, size, ballColor) {
     ctxMain.fill();
 }
 
-//
-// const mainCanvas = document.getElementById('mainCanvas');
-// const ctxMain = mainCanvas.getContext('2d'); // Kontext hlavního plátna
-//
-// const canvasWidth = mainCanvas.width;
-// const canvasHeight = mainCanvas.height;
-//
 let selectedEntity = null; // Vybraná entita z nákupního menu
-//
+
 // Přidání události pro kliknutí na nákupním menu
 shopCanvas.addEventListener('click', (event) => {
     const mouseX = event.clientX //- shopCanvas.getBoundingClientRect().left;
     const mouseY = event.clientY //- shopCanvas.getBoundingClientRect().top;
 
-    console.log('mouseX -> ' + mouseX)
-    console.log('mouseY -> ' + mouseY)
+    // console.log('mouseX -> ' + mouseX)
+    // console.log('mouseY -> ' + mouseY)
 
+    // Pokud je vybrána entita, umístěte ji na pozici kliku na hlavním plátně
+    if (selectedEntity) {
+        // new Entity placed
+        let x = mouseX;
+        let y = mouseY;
+        let type = selectedEntity;
+        entities.push({x, y, type});
+        // reset
+        selectedEntity = null;
+        // const newEntity = {
+        //     x: mouseX,
+        //     y: mouseY,
+        //     type: selectedEntity
+        //     // Další vlastnosti entity
+        // }
+    }
     // Zde můžete zjistit, která entita byla vybrána na základě pozice kliku
-    if (isEntityClicked(mouseX, mouseY)) {
+    else if (isEntityClicked(mouseX, mouseY)) {
         // selectedEntity = entities[/* index vybrané entity */];
     }
 });
@@ -143,6 +152,41 @@ function isEntityClicked(mouseX, mouseY) {
     // console.log('shopEntity[3].y -> ' + shopEntity[3].y)
     // console.log('shopEntity[3].squareSize -> ' + shopEntity[3].squareSize)
     return false; // Kliknuto mimo entity
+}
+
+export function drawEntities(ctx) {
+    // Vykreslení entit na hlavním plátně
+    for (let i = 0; i < entities.length; i++) {
+        const entity = entities[i];
+        let color = 'white'
+        let radius = 20;
+        // Zde můžete vykreslit entity na hlavním plátně
+        switch (entity.type){
+            case 0:
+                color = 'green'
+                break;
+            case 1:
+                color = 'blue'
+                break;
+            case 2:
+                color = 'yellow'
+                break;
+            case 3:
+                color = 'black'
+                break;
+            default :
+                color = 'white'
+                break;
+        }
+
+        // shopCanvas.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
+        // Nakreslit míček do středu čtverce
+        ctx.beginPath();
+        ctx.arc(entity.x, entity.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.closePath();
+    }
 }
 //
 // // Hlavní herní smyčka
