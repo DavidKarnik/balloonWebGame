@@ -95,7 +95,7 @@ function drawPath() {
     //100 iterations
     const increase = 90 / 180 * Math.PI / 10;
     let i;
-    let pathWidth = canvas.width; // - (0.1 * canvas.width);
+    let pathWidth = canvas.width + (0.01 * canvas.width);
     for (i = 0; i <= pathWidth; i += 10) {
         // place the cursor from the point the line should be started
         ctx.moveTo(x, y);

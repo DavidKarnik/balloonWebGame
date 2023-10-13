@@ -1,5 +1,5 @@
 // Script pro logiku a operace entit (nákup, placement, akce)
-// entita -> samostatná střílna
+// entita -> samostatná střílna ("turret"/"sentry")
 
 const shopCanvas = document.getElementById('gameCanvas');
 const ctxShop = shopCanvas.getContext('2d'); // context of canvas
@@ -7,13 +7,20 @@ const ctxShop = shopCanvas.getContext('2d'); // context of canvas
 shopCanvas.width = window.innerWidth;
 shopCanvas.height = window.innerHeight;
 
-let shopEntity = []; // {x, y, size of square}
+let shopEntity = [
+    // {x, y, size of square}
+];
 
 let entities = [
     // {x,y,range,type,level,damage,fireRate}
     // {}
 ];
 
+/**
+ * Draw entity buy square menu
+ * @param ctxMain - canvas context
+ * @param canvasMain - canvas
+ */
 export function drawBuyMenu(ctxMain, canvasMain) {
     const squareSize = 150; // Velikost čtverce
     const padding = 40; // Odsazení mezi čtverci
@@ -29,17 +36,12 @@ export function drawBuyMenu(ctxMain, canvasMain) {
         // odsazení
         let x = startSquareX + i * (squareSize + padding); // Aktualizovat pozici pro každý čtverec
         let y = canvasMain.height - squareSize - 10;
+
         drawSquare(ctxMain, x, y, squareSize, ballColors[i]);
-        // shopEntity[i] = {xPadd, yHelp, squareSize}; // x, y, size of square
+
         shopEntity.push({x, y, squareSize});
-        // console.log('shopEntity created -> ' + xPadd, yHelp, squareSize)
-        // shopEntity created -> 793 675 150
-        // shopEntity created -> 223 675 150
-        // shopEntity created -> 413 675 150
-        // shopEntity created -> 603 675 150
     }
 
-    // entity
     // Vykreslení entit na nákupním menu
     // for (let i = 0; i < entities.length; i++) {
     //     const entity = entities[i];
@@ -48,6 +50,14 @@ export function drawBuyMenu(ctxMain, canvasMain) {
     // }
 }
 
+/**
+ * Draw shop square
+ * @param ctxMain - canvas context
+ * @param x - square coordination X
+ * @param y - square coordination Y
+ * @param size - size of square (one side)
+ * @param ballColor - color of entity (in the middle of square)
+ */
 function drawSquare(ctxMain, x, y, size, ballColor) {
     ctxMain.fillStyle = 'white'; // Barva vnitřku čtverce
     ctxMain.strokeStyle = 'black'; // Barva obrysu čtverce
@@ -71,13 +81,13 @@ function drawSquare(ctxMain, x, y, size, ballColor) {
 
 let selectedEntity = null; // Vybraná entita z nákupního menu
 
-// Přidání události pro kliknutí na nákupním menu
+/**
+ *  Události pro kliknutí na nákupním menu a placement Entity ("Sentry")
+ */
 shopCanvas.addEventListener('click', (event) => {
     const mouseX = event.clientX //- shopCanvas.getBoundingClientRect().left;
     const mouseY = event.clientY //- shopCanvas.getBoundingClientRect().top;
 
-    // console.log('mouseX -> ' + mouseX)
-    // console.log('mouseY -> ' + mouseY)
 
     // Pokud je vybrána entita, umístěte ji na pozici kliku na hlavním plátně
     if (selectedEntity != null) {
@@ -88,38 +98,19 @@ shopCanvas.addEventListener('click', (event) => {
         entities.push({x, y, type});
         // reset
         selectedEntity = null;
-        // const newEntity = {
-        //     x: mouseX,
-        //     y: mouseY,
-        //     type: selectedEntity
-        //     // Další vlastnosti entity
-        // }
     }
     // Zde můžete zjistit, která entita byla vybrána na základě pozice kliku
     else if (isEntityClicked(mouseX, mouseY)) {
         // selectedEntity = entities[/* index vybrané entity */];
     }
 });
-//
-// // Přidání události pro kliknutí na hlavním plátně
-// mainCanvas.addEventListener('click', (event) => {
-//     const mouseX = event.clientX - mainCanvas.getBoundingClientRect().left;
-//     const mouseY = event.clientY - mainCanvas.getBoundingClientRect().top;
-//
-//     // Pokud je vybrána entita, umístěte ji na pozici kliku na hlavním plátně
-//     if (selectedEntity) {
-//         const newEntity = {
-//             x: mouseX,
-//             y: mouseY,
-//             // Další vlastnosti entity
-//         };
-//
-//         entities.push(newEntity); // Přidat entitu do seznamu entit na hlavním plátně
-//         selectedEntity = null; // Vybraná entita byla umístěna
-//     }
-// });
-//
-// // Funkce pro zjištění, zda byla entita v nákupním menu kliknuta
+
+/**
+ * Funkce pro zjištění, zda byla entita v nákupním menu kliknuta
+ * @param mouseX - mouse position X
+ * @param mouseY - mouse position Y
+ * @return {boolean} - was any entity clicked ?
+ */
 function isEntityClicked(mouseX, mouseY) {
     for (let i = 0; i < shopEntity.length; i++) {
         const entity = entities[i];
@@ -131,13 +122,16 @@ function isEntityClicked(mouseX, mouseY) {
             mouseY <= shopEntity[i].y + shopEntity[i].squareSize
         ) {
             selectedEntity = i; // number of selected entity
-
             return true; // Kliknuto na entitu
         }
     }
     return false; // Kliknuto mimo entity
 }
 
+/**
+ * Draw entities -> draw all "Sentry"
+ * @param ctx - canvas context
+ */
 export function drawEntities(ctx) {
     // Vykreslení entit na hlavním plátně
     for (let i = 0; i < entities.length; i++) {
@@ -145,7 +139,7 @@ export function drawEntities(ctx) {
         let color = 'white'
         let radius = 20;
         // Zde můžete vykreslit entity na hlavním plátně
-        switch (entity.type){
+        switch (entity.type) {
             case 0:
                 color = 'green'
                 break;
@@ -162,9 +156,8 @@ export function drawEntities(ctx) {
                 color = 'white'
                 break;
         }
-
         // shopCanvas.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
-        // Nakreslit míček do středu čtverce
+        // Nakreslit entitu
         ctx.beginPath();
         ctx.arc(entity.x, entity.y, radius, 0, Math.PI * 2);
         ctx.fillStyle = color;
@@ -172,23 +165,3 @@ export function drawEntities(ctx) {
         ctx.closePath();
     }
 }
-//
-// // Hlavní herní smyčka
-// function gameLoop() {
-//     // Vykreslení nákupního menu
-//     drawBuyMenu();
-//
-//     // Vykreslení entit na hlavním plátně
-//     for (let i = 0; i < entities.length; i++) {
-//         const entity = entities[i];
-//         // Zde můžete vykreslit entity na hlavním plátně
-//         ctxMain.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
-//     }
-//
-//     // Další herní logika
-//
-//     // requestAnimationFrame(gameLoop);
-// }
-
-// Spuštění herní smyčky
-// gameLoop();
