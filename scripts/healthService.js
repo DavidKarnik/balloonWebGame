@@ -15,8 +15,8 @@ export function drawHealthBar(ctx, x, y) {
     // console.log('maxHealth: ' + maxHealth)
     // console.log('healthDown: ' + healthDown)
 
-    let barWidth = 200; // Šířka health baru
-    let barHeight = 20; // Výška health baru
+    let barWidth = 300; // Šířka health baru
+    let barHeight = 30; // Výška health baru
 
     // Zdraví po odečtení healthDown
     let newHealth = maxHealth - healthDown;

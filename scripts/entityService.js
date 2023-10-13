@@ -80,7 +80,7 @@ shopCanvas.addEventListener('click', (event) => {
     // console.log('mouseY -> ' + mouseY)
 
     // Pokud je vybrána entita, umístěte ji na pozici kliku na hlavním plátně
-    if (selectedEntity) {
+    if (selectedEntity != null) {
         // new Entity placed
         let x = mouseX;
         let y = mouseY;
@@ -130,27 +130,11 @@ function isEntityClicked(mouseX, mouseY) {
             mouseY >= shopEntity[i].y &&
             mouseY <= shopEntity[i].y + shopEntity[i].squareSize
         ) {
-            // console.log('Entity is clicked ! number: ' + i)
             selectedEntity = i; // number of selected entity
+
             return true; // Kliknuto na entitu
         }
     }
-    // console.log('Entity is NOT clicked !')
-    // console.log('shopEntity[0].x -> ' + shopEntity[0].x)
-    // console.log('shopEntity[0].y -> ' + shopEntity[0].y)
-    // console.log('shopEntity[0].squareSize -> ' + shopEntity[0].squareSize)
-    //
-    // console.log('shopEntity[1].x -> ' + shopEntity[1].x)
-    // console.log('shopEntity[1].y -> ' + shopEntity[1].y)
-    // console.log('shopEntity[1].squareSize -> ' + shopEntity[1].squareSize)
-    //
-    // console.log('shopEntity[2].x -> ' + shopEntity[2].x)
-    // console.log('shopEntity[2].y -> ' + shopEntity[2].y)
-    // console.log('shopEntity[2].squareSize -> ' + shopEntity[2].squareSize)
-    //
-    // console.log('shopEntity[3].x -> ' + shopEntity[3].x)
-    // console.log('shopEntity[3].y -> ' + shopEntity[3].y)
-    // console.log('shopEntity[3].squareSize -> ' + shopEntity[3].squareSize)
     return false; // Kliknuto mimo entity
 }
 

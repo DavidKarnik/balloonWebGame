@@ -12,7 +12,9 @@ let projectiles = [];
 
 // Player score
 // TODO add buy logic for entities
-let score = 0;
+let cash = 0;
+
+let level = 0;
 
 // Canvas parameters
 canvas.width = window.innerWidth;
@@ -110,6 +112,14 @@ function drawPath() {
     ctx.stroke();
 }
 
+function printWave(ctx, canvas, level) {
+    let x = canvas.width - 130;
+    let y = 40;
+    ctx.font = '30px Arial';
+    ctx.fillStyle = 'black';
+    ctx.fillText('Wave: ' + level, x, y);
+}
+
 /**
  * Main function for Refresh Game Canvas and all data
  */
@@ -122,7 +132,7 @@ function updateGameArea() {
     // GAME END conditions --------------------------------------------------------------------------
     // Hra se zastaví, pokud je skóre větší než 10
     // Hra se zastaví, životy jsou === 0
-    if (score > 10 ||
+    if (cash > 10 ||
         getCurrentHealth() === 0) {
         // výsledný healtBar
         drawHealthBar(ctx, xH, yH)
@@ -168,7 +178,7 @@ function updateGameArea() {
                 // smazat konkretní entity z pole .splice(index od, kolik)
                 balloons.splice(i, 1);
                 projectiles.splice(j, 1);
-                score++;
+                cash++;
                 i--; // o balonek méně
                 exceptionPoppedBalloon = true;
                 break;
@@ -216,7 +226,9 @@ function updateGameArea() {
     // Write score info ----------------------------------------------------------------------------
     ctx.font = '30px Arial';
     ctx.fillStyle = 'black';
-    ctx.fillText('Score: ' + score, 20, 40);
+    ctx.fillText('Cash: ' + cash, 20, 40);
+
+    printWave(ctx, canvas, level);
 
 
     // ---------------------------------------------------------------------------------------------
