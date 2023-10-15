@@ -10,6 +10,8 @@ const projectileRadius = 5;
 let balloons = [];
 let projectiles = [];
 
+export
+
 // Player score
 // TODO add buy logic for entities
 let cash = 0;

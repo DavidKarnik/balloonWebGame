@@ -88,14 +88,32 @@ shopCanvas.addEventListener('click', (event) => {
     const mouseX = event.clientX //- shopCanvas.getBoundingClientRect().left;
     const mouseY = event.clientY //- shopCanvas.getBoundingClientRect().top;
 
-
     // Pokud je vybrána entita, umístěte ji na pozici kliku na hlavním plátně
     if (selectedEntity != null) {
         // new Entity placed
         let x = mouseX;
         let y = mouseY;
         let type = selectedEntity;
-        entities.push({x, y, type});
+        // range by type
+        let range = 0;
+        switch (type) {
+            case 0:
+                range = 80
+                break;
+            case 1:
+                range = 100
+                break;
+            case 2:
+                range = 120
+                break;
+            case 3:
+                range = 150
+                break;
+            default :
+                range = 0
+                break;
+        }
+        entities.push({x, y, type, range});
         // reset
         selectedEntity = null;
     }
@@ -158,10 +176,79 @@ export function drawEntities(ctx) {
         }
         // shopCanvas.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
         // Nakreslit entitu
+        //range
+        drawRange(ctx, entity.x, entity.y, entity.range);
         ctx.beginPath();
         ctx.arc(entity.x, entity.y, radius, 0, Math.PI * 2);
         ctx.fillStyle = color;
         ctx.fill();
         ctx.closePath();
     }
+}
+
+/**
+ * Draw entity range
+ * @param ctx - canvas context
+ * @param x - coordination center x
+ * @param y - coordination center y
+ * @param range - range - r of circle
+ */
+function drawRange(ctx, x, y, range) {
+    // Nakreslit range entity - čárkovaně
+    ctx.beginPath();
+    ctx.arc(x, y, range, 0, 2 * Math.PI, false); // Vykreslení prázdného kruhu
+    ctx.lineWidth = 2; // Šířka čáry
+    ctx.strokeStyle = 'black'; // Barva obrysu (černá)
+    ctx.setLineDash([5, 15]); // Čárkovaný obrys
+    ctx.stroke(); // Vykreslení obrysu
+    ctx.closePath();
+    ctx.setLineDash([]); // Resetovat čárkovaný obrys pro další vykreslování
+}
+
+// Entity interaction
+
+function drawEntityProjectile(entity, x, y) {
+    // ctx.beginPath();
+    // ctx.arc(x, y, projectileRadius, 0, Math.PI * 2);
+    // ctx.fillStyle = 'blue';
+    // ctx.fill();
+    // ctx.closePath();
+
+    // je entita dostatečně blízko balónku - dostřel
+    // zaměřit na nejbližší balón
+    // časovač, jak často střílet ?
+    // damage ?
+
+    for (let i = 0; i < entities.length; i++) {
+        const entity = entities[i];
+        // let color = 'white'
+        let range = 20;
+        // spočítat vzdálenost od každého balónku a zasáhnou ten nejbližší
+        for (let i = 0; i < balloons.getArray.length; i++) {
+
+        }
+
+        // shopCanvas.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
+        // Nakreslit entitu
+        ctx.beginPath();
+        ctx.arc(entity.x, entity.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.closePath();
+    }
+}
+
+/**
+ * Výpočet vzdálenosti mezi dvěma body v rovině.
+ * @param {number} x1 - Souřadnice x prvního bodu
+ * @param {number} y1 - Souřadnice y prvního bodu
+ * @param {number} x2 - Souřadnice x druhého bodu
+ * @param {number} y2 - Souřadnice y druhého bodu
+ * @returns {number} - Vzdálenost mezi body (float)
+ */
+function calculateDistance(x1, y1, x2, y2) {
+    // distance = √((x2 - x1)² + (y2 - y1)²)
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    return Math.sqrt(dx * dx + dy * dy);
 }
