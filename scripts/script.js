@@ -1,4 +1,4 @@
-import {drawBuyMenu, drawEntities} from './entityService.js';
+import {drawBuyMenu, drawEntities, drawEntityProjectile} from './entityService.js';
 import {dealDamage, drawCastle, drawHealthBar, getCurrentHealth} from "./healthService.js";
 import {drawAllBalloons, calculateBalloonYPosition, createBalloon} from "./balloonService.js";
 
@@ -125,6 +125,9 @@ function updateGameArea() {
 
     // Vykreslit balónky ----------------------------------------------------------------------------
     drawAllBalloons()
+
+    // if (Math.random() < 0.02) {}
+    drawEntityProjectile()
 
         // Projectile touch the wall ? -------------------------------------------------------------
         for (let j = 0; j < projectiles.length; j++) {

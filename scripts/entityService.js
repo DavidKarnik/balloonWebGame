@@ -1,8 +1,10 @@
 // Script pro logiku a operace entit (nákup, placement, akce)
 // entita -> samostatná střílna ("turret"/"sentry")
 
+import {balloons} from "./balloonService.js";
+
 const shopCanvas = document.getElementById('gameCanvas');
-const ctxShop = shopCanvas.getContext('2d'); // context of canvas
+const ctx = shopCanvas.getContext('2d'); // context of canvas
 
 shopCanvas.width = window.innerWidth;
 shopCanvas.height = window.innerHeight;
@@ -13,8 +15,11 @@ let shopEntity = [
 
 let entities = [
     // {x,y,range,type,level,damage,fireRate}
-    // {}
 ];
+
+// const projectileRadius = 5;
+
+export let projectiles = [];
 
 /**
  * Draw entity buy square menu
@@ -207,34 +212,33 @@ function drawRange(ctx, x, y, range) {
 
 // Entity interaction
 
-function drawEntityProjectile(entity, x, y) {
-    // ctx.beginPath();
-    // ctx.arc(x, y, projectileRadius, 0, Math.PI * 2);
-    // ctx.fillStyle = 'blue';
-    // ctx.fill();
-    // ctx.closePath();
-
+export function drawEntityProjectile() {
     // je entita dostatečně blízko balónku - dostřel
     // zaměřit na nejbližší balón
     // časovač, jak často střílet ?
     // damage ?
 
     for (let i = 0; i < entities.length; i++) {
-        const entity = entities[i];
-        // let color = 'white'
-        let range = 20;
-        // spočítat vzdálenost od každého balónku a zasáhnou ten nejbližší
-        for (let i = 0; i < balloons.getArray.length; i++) {
+        const entity = entities[i]
 
+        let closestBalloon = null;
+        let distanceClosest = 999;
+        for (let j = 0; j < balloons.length; j++) {
+            let distance = calculateDistance(balloons[j].x, balloons[j].y, entity.x, entity.y)
+            if(distance <= distanceClosest) {
+                distanceClosest = distance;
+                closestBalloon = j;
+            }
         }
 
-        // shopCanvas.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
-        // Nakreslit entitu
-        ctx.beginPath();
-        ctx.arc(entity.x, entity.y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.closePath();
+        if(distanceClosest <= entity.range) {
+            // shoot balloon if not null
+            if(closestBalloon) {
+                drawLine(ctx,entity.x,entity.y,balloons[closestBalloon].x,balloons[closestBalloon].y)
+                balloons.splice(closestBalloon, 1);
+                // console.log('delete balloon number: ' + closestBalloon)
+            }
+        }
     }
 }
 
@@ -252,3 +256,13 @@ function calculateDistance(x1, y1, x2, y2) {
     const dy = y2 - y1;
     return Math.sqrt(dx * dx + dy * dy);
 }
+
+function drawLine(ctx, xStart, yStart, xEnd, yEnd) {
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(xStart, yStart);
+    ctx.lineTo(xEnd, yEnd);
+    ctx.stroke();
+}
+
