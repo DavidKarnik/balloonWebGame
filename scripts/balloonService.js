@@ -7,7 +7,7 @@ const ctx = canvas.getContext('2d'); // context of canvas
 
 const balloonRadius = 30;
 
-let balloons = [];
+export let balloons = [];
 
 let exceptionPoppedBalloon = false;
 
