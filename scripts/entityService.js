@@ -213,30 +213,24 @@ function drawRange(ctx, x, y, range) {
 // Entity interaction
 
 export function drawEntityProjectile() {
-    // je entita dostatečně blízko balónku - dostřel
-    // zaměřit na nejbližší balón
-    // časovač, jak často střílet ?
-    // damage ?
-
     for (let i = 0; i < entities.length; i++) {
         const entity = entities[i]
-
+        console.log('i -> ' + i)
         let closestBalloon = null;
         let distanceClosest = 999;
         for (let j = 0; j < balloons.length; j++) {
             let distance = calculateDistance(balloons[j].x, balloons[j].y, entity.x, entity.y)
-            if(distance <= distanceClosest) {
+            if (distance <= distanceClosest) {
                 distanceClosest = distance;
                 closestBalloon = j;
             }
         }
 
-        if(distanceClosest <= entity.range) {
+        if (distanceClosest <= entity.range) {
             // shoot balloon if not null
-            if(closestBalloon) {
-                drawLine(ctx,entity.x,entity.y,balloons[closestBalloon].x,balloons[closestBalloon].y)
+            if (closestBalloon) {
+                drawLine(ctx, entity.x, entity.y, balloons[closestBalloon].x, balloons[closestBalloon].y)
                 balloons.splice(closestBalloon, 1);
-                // console.log('delete balloon number: ' + closestBalloon)
             }
         }
     }
@@ -266,3 +260,4 @@ function drawLine(ctx, xStart, yStart, xEnd, yEnd) {
     ctx.stroke();
 }
 
+setInterval(drawEntityProjectile,500);

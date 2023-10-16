@@ -23,6 +23,7 @@ canvas.height = window.innerHeight;
 let startX = canvas.width / 2;
 let startY = canvas.height;
 
+let balloonCount = 1
 
 /**
  * Create new Projectile and save to the array
@@ -126,20 +127,30 @@ function updateGameArea() {
     // Vykreslit balónky ----------------------------------------------------------------------------
     drawAllBalloons()
 
-    // if (Math.random() < 0.02) {}
-    drawEntityProjectile()
+    // setInterval(drawEntityProjectile(), 1000); // 1000 milisekund = 1 sekunda
+    // if (Math.random() < 0.02) {
+    //     drawEntityProjectile()
+    // }
+    // Vytvoření intervalu a uložení jeho ID
+    // const intervalId = setInterval(drawEntityProjectile(), 1000);
+    // // Později, pokud chcete zastavit smyčku (např. po určitém počtu opakování nebo podle nějaké podmínky)
+    // if (cash > 10 ||
+    //     getCurrentHealth() === 0) {
+    //     clearInterval(intervalId); // Zruší interval
+    // }
 
-        // Projectile touch the wall ? -------------------------------------------------------------
-        for (let j = 0; j < projectiles.length; j++) {
-            // Detekce kolize projectile se stěnou (right, bottom, left, up)
-            if (projectiles[j].x > canvas.width ||
-                projectiles[j].y > canvas.height ||
-                projectiles[j].x < 0 ||
-                projectiles[j].y < 0) {
-                projectiles.splice(j, 1);
-                // console.log("projectiles touch wall!")
-            }
+
+    // Projectile touch the wall ? -------------------------------------------------------------
+    for (let j = 0; j < projectiles.length; j++) {
+        // Detekce kolize projectile se stěnou (right, bottom, left, up)
+        if (projectiles[j].x > canvas.width ||
+            projectiles[j].y > canvas.height ||
+            projectiles[j].x < 0 ||
+            projectiles[j].y < 0) {
+            projectiles.splice(j, 1);
+            // console.log("projectiles touch wall!")
         }
+    }
     // }
 
     // Vykreslit projektily ------------------------------------------------------------------------
@@ -152,8 +163,9 @@ function updateGameArea() {
     // Vytvoření nového balónku --------------------------------------------------------------------
     // setInterval(createBalloon, 1000);
     // Vytvořit nový balónek s pravděpodobností 2 % v každém snímku
-    if (Math.random() < 0.02) {
+    if (Math.random() < 0.02 && balloonCount <= 10) {
         createBalloon();
+        balloonCount++;
     }
 
     // Write score info ----------------------------------------------------------------------------
