@@ -21,6 +21,8 @@ let entities = [
 
 export let projectiles = [];
 
+const shootIntervalIds = [];
+
 /**
  * Draw entity buy square menu
  * @param ctxMain - canvas context
@@ -124,6 +126,7 @@ shopCanvas.addEventListener('click', (event) => {
         selectedEntity = null;
     }
     // Zde můžete zjistit, která entita byla vybrána na základě pozice kliku
+    // selectedEntity se přepíše <---
     else if (isEntityClicked(mouseX, mouseY)) {
         // selectedEntity = entities[/* index vybrané entity */];
     }
@@ -213,29 +216,29 @@ function drawRange(ctx, x, y, range) {
 
 // Entity interaction
 
-export function drawEntityProjectile() {
-    for (let i = 0; i < entities.length; i++) {
-        const entity = entities[i]
-        console.log('i -> ' + i)
-        let closestBalloon = null;
-        let distanceClosest = 999;
-        for (let j = 0; j < balloons.length; j++) {
-            let distance = calculateDistance(balloons[j].x, balloons[j].y, entity.x, entity.y)
-            if (distance <= distanceClosest) {
-                distanceClosest = distance;
-                closestBalloon = j;
-            }
-        }
-
-        if (distanceClosest <= entity.range) {
-            // shoot balloon if not null
-            if (closestBalloon) {
-                drawLine(ctx, entity.x, entity.y, balloons[closestBalloon].x, balloons[closestBalloon].y)
-                balloons.splice(closestBalloon, 1);
-            }
-        }
-    }
-}
+// export function drawEntityProjectile() {
+//     for (let i = 0; i < entities.length; i++) {
+//         const entity = entities[i]
+//         console.log('i -> ' + i)
+//         let closestBalloon = null;
+//         let distanceClosest = 999;
+//         for (let j = 0; j < balloons.length; j++) {
+//             let distance = calculateDistance(balloons[j].x, balloons[j].y, entity.x, entity.y)
+//             if (distance <= distanceClosest) {
+//                 distanceClosest = distance;
+//                 closestBalloon = j;
+//             }
+//         }
+//
+//         if (distanceClosest <= entity.range) {
+//             // shoot balloon if not null
+//             if (closestBalloon) {
+//                 drawLine(ctx, entity.x, entity.y, balloons[closestBalloon].x, balloons[closestBalloon].y)
+//                 balloons.splice(closestBalloon, 1);
+//             }
+//         }
+//     }
+// }
 
 /**
  * Výpočet vzdálenosti mezi dvěma body v rovině.
@@ -264,14 +267,17 @@ function drawLine(ctx, xStart, yStart, xEnd, yEnd) {
 // ----------------------------------------------------------------------------------------------
 
 export function startShootingFunction() {
+// Spustit intervaly
     for (const entity of entities) {
         if (!entity.isShooting) {
-            setInterval(() => {
-                shootEntity(entity).then(r => "000");
+            const intervalId = setInterval(() => {
+                shootEntity(entity);
             }, 1000);
+            shootIntervalIds.push(intervalId); // Uložit ID intervalu do pole
             entity.isShooting = true;
         }
     }
+    // console.log("Entity shooting start")
 }
 
 // Funkce pro střelbu jedné entity
@@ -292,4 +298,12 @@ async function shootEntity(entity) {
             balloons.splice(closestBalloon, 1);
         }
     }
+}
+
+export function stopShootingFunction() {
+    // Zastavit intervaly střelby
+    for (const intervalId of shootIntervalIds) {
+        clearInterval(intervalId);
+    }
+    // console.log("Entity shooting END")
 }

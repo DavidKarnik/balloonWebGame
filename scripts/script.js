@@ -1,5 +1,5 @@
 import {
-    drawBuyMenu, drawEntities, startShootingFunction
+    drawBuyMenu, drawEntities, startShootingFunction, stopShootingFunction
 } from './entityService.js';
 import {dealDamage, drawCastle, drawHealthBar, getCurrentHealth} from "./healthService.js";
 import {drawAllBalloons, calculateBalloonYPosition, createBalloon} from "./balloonService.js";
@@ -26,8 +26,6 @@ let startX = canvas.width / 2;
 let startY = canvas.height;
 
 let balloonCount = 1
-
-let startedShooting = false;
 
 /**
  * Create new Projectile and save to the array
@@ -105,8 +103,7 @@ function updateGameArea() {
         getCurrentHealth() === 0) {
         // výsledný healtBar
         drawHealthBar(ctx, xH, yH)
-        endShootingForAllEntities();
-
+        stopShootingFunction();
         return;
     }
 
@@ -133,22 +130,8 @@ function updateGameArea() {
     // Vykreslit balónky ----------------------------------------------------------------------------
     drawAllBalloons()
 
+    // start async function
     startShootingFunction()
-
-    // startShooting().then(r => console.log("end shooting + r: " + r)); // Spuštění střelby
-    // asyncFunction().then(r => console.log("aaaaa"))
-
-    // setInterval(drawEntityProjectile(), 1000); // 1000 milisekund = 1 sekunda
-    // if (Math.random() < 0.02) {
-    //     drawEntityProjectile()
-    // }
-    // Vytvoření intervalu a uložení jeho ID
-    // const intervalId = setInterval(drawEntityProjectile(), 1000);
-    // // Později, pokud chcete zastavit smyčku (např. po určitém počtu opakování nebo podle nějaké podmínky)
-    // if (cash > 10 ||
-    //     getCurrentHealth() === 0) {
-    //     clearInterval(intervalId); // Zruší interval
-    // }
 
 
     // Projectile touch the wall ? -------------------------------------------------------------
@@ -162,7 +145,6 @@ function updateGameArea() {
             // console.log("projectiles touch wall!")
         }
     }
-    // }
 
     // Vykreslit projektily ------------------------------------------------------------------------
     for (let i = 0; i < projectiles.length; i++) {
