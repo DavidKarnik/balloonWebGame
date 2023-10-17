@@ -9,6 +9,7 @@ My project of web game using just .html .css and plain .js
     ├── img/
     │   └── xxx
     ├── scripts/
+    │   ├── balloonService.js
     │   ├── entityService.js
     │   ├── healthService.js
     │   └── script.js
