@@ -118,7 +118,8 @@ shopCanvas.addEventListener('click', (event) => {
                 range = 0
                 break;
         }
-        entities.push({x, y, type, range});
+        let isShooting = false
+        entities.push({x, y, type, range, isShooting});
         // reset
         selectedEntity = null;
     }
@@ -260,4 +261,35 @@ function drawLine(ctx, xStart, yStart, xEnd, yEnd) {
     ctx.stroke();
 }
 
-setInterval(drawEntityProjectile,500);
+// ----------------------------------------------------------------------------------------------
+
+export function startShootingFunction() {
+    for (const entity of entities) {
+        if (!entity.isShooting) {
+            setInterval(() => {
+                shootEntity(entity).then(r => "000");
+            }, 1000);
+            entity.isShooting = true;
+        }
+    }
+}
+
+// Funkce pro střelbu jedné entity
+async function shootEntity(entity) {
+    let closestBalloon = null;
+    let distanceClosest = 999;
+    for (let j = 0; j < balloons.length; j++) {
+        let distance = calculateDistance(balloons[j].x, balloons[j].y, entity.x, entity.y);
+        if (distance <= distanceClosest) {
+            distanceClosest = distance;
+            closestBalloon = j;
+        }
+    }
+    if (distanceClosest <= entity.range) {
+        // Střelba balónu, pokud není null
+        if (closestBalloon !== null) {
+            drawLine(ctx, entity.x, entity.y, balloons[closestBalloon].x, balloons[closestBalloon].y);
+            balloons.splice(closestBalloon, 1);
+        }
+    }
+}

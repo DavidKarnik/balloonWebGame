@@ -1,4 +1,6 @@
-import {drawBuyMenu, drawEntities, drawEntityProjectile} from './entityService.js';
+import {
+    drawBuyMenu, drawEntities, startShootingFunction
+} from './entityService.js';
 import {dealDamage, drawCastle, drawHealthBar, getCurrentHealth} from "./healthService.js";
 import {drawAllBalloons, calculateBalloonYPosition, createBalloon} from "./balloonService.js";
 
@@ -24,6 +26,8 @@ let startX = canvas.width / 2;
 let startY = canvas.height;
 
 let balloonCount = 1
+
+let startedShooting = false;
 
 /**
  * Create new Projectile and save to the array
@@ -101,6 +105,8 @@ function updateGameArea() {
         getCurrentHealth() === 0) {
         // výsledný healtBar
         drawHealthBar(ctx, xH, yH)
+        endShootingForAllEntities();
+
         return;
     }
 
@@ -126,6 +132,11 @@ function updateGameArea() {
 
     // Vykreslit balónky ----------------------------------------------------------------------------
     drawAllBalloons()
+
+    startShootingFunction()
+
+    // startShooting().then(r => console.log("end shooting + r: " + r)); // Spuštění střelby
+    // asyncFunction().then(r => console.log("aaaaa"))
 
     // setInterval(drawEntityProjectile(), 1000); // 1000 milisekund = 1 sekunda
     // if (Math.random() < 0.02) {
