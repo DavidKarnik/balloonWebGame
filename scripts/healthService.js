@@ -52,3 +52,7 @@ export function getMaxHealth() {
 export function getCurrentHealth() {
     return (maxHealth - healthDown);
 }
+
+export function resetHealth() {
+    healthDown = 0
+}

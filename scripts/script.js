@@ -1,21 +1,23 @@
 import {
     drawBuyMenu, drawEntities, startShootingFunction, stopShootingFunction
 } from './entityService.js';
-import {dealDamage, drawCastle, drawHealthBar, getCurrentHealth} from "./healthService.js";
-import {drawAllBalloons, calculateBalloonYPosition, createBalloon} from "./balloonService.js";
+import {dealDamage, drawCastle, drawHealthBar, getCurrentHealth, resetHealth} from "./healthService.js";
+import {drawAllBalloons, calculateBalloonYPosition, createBalloon, balloons, clearBalloons} from "./balloonService.js";
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d'); // context of canvas
 
 const projectileRadius = 5;
-
 let projectiles = [];
 
 // Player score
 // TODO add buy logic for entities
 let cash = 30;
 
-let level = 0;
+let level = 1;
+
+let gameRunning = false
+let gameOver = false
 
 // Canvas parameters
 canvas.width = window.innerWidth;
@@ -95,7 +97,6 @@ function updateGameArea() {
     let xH = canvas.width / 2; // Pozice X health baru
     let yH = 30; // Pozice Y health baru
 
-
     // GAME END conditions --------------------------------------------------------------------------
     // Hra se zastaví, pokud je skóre větší než 10
     // Hra se zastaví, životy jsou === 0
@@ -105,6 +106,7 @@ function updateGameArea() {
         // výsledný healtBar
         drawHealthBar(ctx, xH, yH)
         stopShootingFunction();
+        gameOver = true
         return;
     }
 
@@ -157,7 +159,7 @@ function updateGameArea() {
     // Vytvoření nového balónku --------------------------------------------------------------------
     // setInterval(createBalloon, 1000);
     // Vytvořit nový balónek s pravděpodobností 2 % v každém snímku
-    if (Math.random() < 0.02 && balloonCount <= 10) {
+    if (Math.random() < 0.02 && balloonCount <= (level * 10)) {
         createBalloon();
         balloonCount++;
     }
@@ -198,4 +200,28 @@ canvas.addEventListener('click', (event) => {
 });
 
 // play --------------------------------------------------------------------------------------------
-updateGameArea();
+
+function nextWaveButton() {
+    // Zde můžete provést akce pro novou vlnu hry
+    console.log("Clicked Next Wave button");
+    // Například spustit novou vlnu balónků, resetovat hru, atd.
+    if(!gameRunning &&
+        !gameOver) {
+        console.log("Game Start");
+        // restart, play
+        // gameRunning = true
+        balloonCount = 1
+        clearBalloons()
+        resetHealth()
+        updateGameArea();
+    }
+}
+
+// Připojení funkce k tlačítku po načtení stránky
+document.addEventListener("DOMContentLoaded", function () {
+    const nextWaveButtonElement = document.getElementById("nextWaveButton");
+
+    if (nextWaveButtonElement) {
+        nextWaveButtonElement.addEventListener("click", nextWaveButton);
+    }
+});

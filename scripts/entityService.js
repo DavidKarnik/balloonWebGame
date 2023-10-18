@@ -283,6 +283,7 @@ export function startShootingFunction() {
 async function shootEntity(entity) {
     let closestBalloon = null;
     let distanceClosest = 999;
+    // Find the closest balloon
     for (let j = 0; j < balloons.length; j++) {
         let distance = calculateDistance(balloons[j].x, balloons[j].y, entity.x, entity.y);
         if (distance <= distanceClosest) {
@@ -290,6 +291,7 @@ async function shootEntity(entity) {
             closestBalloon = j;
         }
     }
+    // Is the closest balloon in range ?
     if (distanceClosest <= entity.range) {
         // Střelba balónu, pokud není null
         if (closestBalloon !== null) {

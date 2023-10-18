@@ -88,3 +88,7 @@ export function drawAllBalloons() {
         }
     }
 }
+
+export function clearBalloons() {
+    balloons = []
+}

@@ -10,3 +10,12 @@ canvas {
     margin: 0 auto;
     background: linear-gradient(to right top, #c2c6ce, #a2d4e7, #79e4dd, #91edaa, #dde86b);
 }
+
+#nextWaveButton {
+    position: absolute;
+    bottom: 20px; /* Odsazení od spodu (dolů) */
+    right: 20px; /* Odsazení zprava */
+    width: 100px; /* Šířka tlačítka */
+    height: 50px; /* Výška tlačítka */
+}
+
