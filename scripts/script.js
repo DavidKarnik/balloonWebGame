@@ -13,7 +13,7 @@ let projectiles = [];
 
 // Player score
 // TODO add buy logic for entities
-let cash = 0;
+let cash = 30;
 
 let level = 0;
 
@@ -99,8 +99,9 @@ function updateGameArea() {
     // GAME END conditions --------------------------------------------------------------------------
     // Hra se zastaví, pokud je skóre větší než 10
     // Hra se zastaví, životy jsou === 0
-    if (cash > 10 ||
-        getCurrentHealth() === 0) {
+    // if (cash > 10 ||
+    //     getCurrentHealth() === 0) {
+    if (getCurrentHealth() === 0) {
         // výsledný healtBar
         drawHealthBar(ctx, xH, yH)
         stopShootingFunction();

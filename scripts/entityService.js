@@ -93,7 +93,7 @@ let selectedEntity = null; // Vybraná entita z nákupního menu
  */
 shopCanvas.addEventListener('click', (event) => {
     const mouseX = event.clientX //- shopCanvas.getBoundingClientRect().left;
-    const mouseY = event.clientY //- shopCanvas.getBoundingClientRect().top;
+    const mouseY = event.clientY //- shopCanvas.getBoundingClientRect().getBoundingClientRect().top;
 
     // Pokud je vybrána entita, umístěte ji na pozici kliku na hlavním plátně
     if (selectedEntity != null) {
@@ -277,7 +277,6 @@ export function startShootingFunction() {
             entity.isShooting = true;
         }
     }
-    // console.log("Entity shooting start")
 }
 
 // Funkce pro střelbu jedné entity
@@ -301,9 +300,11 @@ async function shootEntity(entity) {
 }
 
 export function stopShootingFunction() {
-    // Zastavit intervaly střelby
+    // Zastavit intervaly střelby a reset
     for (const intervalId of shootIntervalIds) {
         clearInterval(intervalId);
     }
-    // console.log("Entity shooting END")
+    for (const entity of entities) {
+        entity.isShooting = false
+    }
 }
