@@ -14,7 +14,7 @@ My project of web game using just .html .css and plain .js
     │   ├── healthService.js
     │   └── script.js
     ├── .gitignore
-    ├── index.html
     ├── README.md
+    ├── index.html
     └── style.css
 ```
