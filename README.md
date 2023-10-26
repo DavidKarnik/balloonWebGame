@@ -2,6 +2,8 @@
 
 My project of web game using just .html .css and plain .js
 
+## Abstract
+
 ## Architecture
 
 ```bash
@@ -18,3 +20,5 @@ My project of web game using just .html .css and plain .js
     ├── index.html
     └── style.css
 ```
+
+## Logic
