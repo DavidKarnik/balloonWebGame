@@ -108,7 +108,7 @@ function updateGameArea() {
     //
     // Pokud je requestAnimationFrame() rychlejší nebo pomalejší
     // než předpokládáme, přizpůsobíme posun tak, aby byl vždy stejný.
-    upravRychlost()
+    fixGameSpeed()
 
     // GAME variables -------------------------------------------------------------------------------
     let xH = canvas.width / 2; // Pozice X health baru
@@ -247,9 +247,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-function upravRychlost() {
+function fixGameSpeed() {
     if (casPoslednihoOpakovani) {
         dobaOdPoslednihoOpakovani = Date.now() - casPoslednihoOpakovani;
+        // console.log("speed = " + (dobaOdPoslednihoOpakovani / zakladniIntervalOpakovani))
         setUpravaRychlosti(dobaOdPoslednihoOpakovani / zakladniIntervalOpakovani);
     }
     casPoslednihoOpakovani = Date.now();
