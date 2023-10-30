@@ -3,11 +3,11 @@
 
 import {balloons} from "./balloonService.js";
 
-const shopCanvas = document.getElementById('gameCanvas');
-const ctx = shopCanvas.getContext('2d'); // context of canvas
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d'); // context of canvas
 
-shopCanvas.width = window.innerWidth;
-shopCanvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 let shopEntity = [
     // {x, y, size of square}
@@ -22,6 +22,9 @@ let entities = [
 export let projectiles = [];
 
 const shootIntervalIds = [];
+
+let myMouseX = null;
+let myMouseY = null;
 
 /**
  * Draw entity buy square menu
@@ -91,9 +94,9 @@ let selectedEntity = null; // Vybraná entita z nákupního menu
 /**
  *  Události pro kliknutí na nákupním menu a placement Entity ("Sentry")
  */
-shopCanvas.addEventListener('click', (event) => {
-    const mouseX = event.clientX //- shopCanvas.getBoundingClientRect().left;
-    const mouseY = event.clientY //- shopCanvas.getBoundingClientRect().getBoundingClientRect().top;
+canvas.addEventListener('click', (event) => {
+    const mouseX = event.clientX //- canvas.getBoundingClientRect().left;
+    const mouseY = event.clientY //- canvas.getBoundingClientRect().getBoundingClientRect().top;
 
     // Pokud je vybrána entita, umístěte ji na pozici kliku na hlavním plátně
     if (selectedEntity != null) {
@@ -125,7 +128,7 @@ shopCanvas.addEventListener('click', (event) => {
         // reset
         selectedEntity = null;
     }
-    // Zde můžete zjistit, která entita byla vybrána na základě pozice kliku
+        // Zde můžete zjistit, která entita byla vybrána na základě pozice kliku
     // selectedEntity se přepíše <---
     else if (isEntityClicked(mouseX, mouseY)) {
         // selectedEntity = entities[/* index vybrané entity */];
@@ -183,7 +186,7 @@ export function drawEntities(ctx) {
                 color = 'white'
                 break;
         }
-        // shopCanvas.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
+        // canvas.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
         // Nakreslit entitu
         //range
         drawRange(ctx, entity.x, entity.y, entity.range);
@@ -308,5 +311,61 @@ export function stopShootingFunction() {
     }
     for (const entity of entities) {
         entity.isShooting = false
+    }
+}
+
+// mouse moves over canvas -> draw how would entity look like
+/**
+ * EventListener pro zjištění aktuální pozice myši
+ */
+canvas.addEventListener('mousemove', (event) => {
+    myMouseX = event.x;
+    myMouseY = event.y;
+});
+
+/**
+ * Funkce pro dočasnou grafickou reprezentaci umístění entity
+ */
+export function doLogicForGraphicRepresentation() {
+    // Pokud je vybrána entita, vykreslit dočasnou entitu jako grafickou reprezentaci
+    if (selectedEntity != null && myMouseX != null && myMouseY != null) {
+        // console.log("logic !")
+        let radius = 20;
+        let type = selectedEntity;
+        // range and color by type
+        let range;
+        let color;
+        switch (type) {
+            case 0:
+                range = 80
+                color = 'green'
+                break;
+            case 1:
+                range = 100
+                color = 'blue'
+
+                break;
+            case 2:
+                range = 120
+                color = 'yellow'
+
+                break;
+            case 3:
+                range = 150
+                color = 'black'
+
+                break;
+            default :
+                range = 0
+                color = 'grey'
+                break;
+        }
+        // draw entity
+        drawRange(ctx, myMouseX, myMouseY, range);
+        ctx.beginPath();
+        ctx.arc(myMouseX, myMouseY, radius, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.closePath();
     }
 }

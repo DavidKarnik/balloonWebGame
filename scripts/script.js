@@ -1,4 +1,5 @@
 import {
+    doLogicForGraphicRepresentation,
     drawBuyMenu, drawEntities, startShootingFunction, stopShootingFunction
 } from './entityService.js';
 import {dealDamage, drawCastle, drawHealthBar, getCurrentHealth, resetHealth} from "./healthService.js";
@@ -115,10 +116,7 @@ function updateGameArea() {
     let yH = 30; // Pozice Y health baru
 
     // GAME END conditions --------------------------------------------------------------------------
-    // Hra se zastaví, pokud je skóre větší než 10
     // Hra se zastaví, životy jsou === 0
-    // if (cash > 10 ||
-    //     getCurrentHealth() === 0) {
     if (getCurrentHealth() === 0) {
         // výsledný healtBar
         drawHealthBar(ctx, xH, yH)
@@ -173,6 +171,7 @@ function updateGameArea() {
         drawProjectile(projectiles[i].x, projectiles[i].y);
     }
 
+    // TODO - Create new Balloon logic
     // Vytvoření nového balónku --------------------------------------------------------------------
     // setInterval(createBalloon, 1000);
     // Vytvořit nový balónek s pravděpodobností 2 % v každém snímku
@@ -188,6 +187,8 @@ function updateGameArea() {
 
     printWave(ctx, canvas, level);
 
+    // pokud je entita z shopu nakliknuta, vykreslí se její grafická reprezentace
+    doLogicForGraphicRepresentation()
 
     // ---------------------------------------------------------------------------------------------
     requestAnimationFrame(updateGameArea); // "nekonečná" smyčka, refresh by fps rate
