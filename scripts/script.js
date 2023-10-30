@@ -2,7 +2,14 @@ import {
     drawBuyMenu, drawEntities, startShootingFunction, stopShootingFunction
 } from './entityService.js';
 import {dealDamage, drawCastle, drawHealthBar, getCurrentHealth, resetHealth} from "./healthService.js";
-import {drawAllBalloons, calculateBalloonYPosition, createBalloon, balloons, clearBalloons} from "./balloonService.js";
+import {
+    drawAllBalloons,
+    calculateBalloonYPosition,
+    createBalloon,
+    balloons,
+    clearBalloons,
+    setUpravaRychlosti
+} from "./balloonService.js";
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d'); // context of canvas
@@ -14,7 +21,7 @@ let projectiles = [];
 // TODO add buy logic for entities
 let cash = 30;
 
-let level = 1;
+let level = 5;
 
 let gameRunning = false
 let gameOver = false
@@ -28,6 +35,11 @@ let startX = canvas.width / 2;
 let startY = canvas.height;
 
 let balloonCount = 1
+
+// requestanimationframe() fasting exception
+let zakladniIntervalOpakovani = 1000 / 60;
+let casPoslednihoOpakovani = 0;
+let dobaOdPoslednihoOpakovani = 0;
 
 /**
  * Create new Projectile and save to the array
@@ -93,6 +105,11 @@ function printWave(ctx, canvas, level) {
  * Main function for Refresh Game Canvas and all data
  */
 function updateGameArea() {
+    //
+    // Pokud je requestAnimationFrame() rychlejší nebo pomalejší
+    // než předpokládáme, přizpůsobíme posun tak, aby byl vždy stejný.
+    upravRychlost()
+
     // GAME variables -------------------------------------------------------------------------------
     let xH = canvas.width / 2; // Pozice X health baru
     let yH = 30; // Pozice Y health baru
@@ -174,6 +191,10 @@ function updateGameArea() {
 
     // ---------------------------------------------------------------------------------------------
     requestAnimationFrame(updateGameArea); // "nekonečná" smyčka, refresh by fps rate
+    // Warning: Be sure to always use the first argument (or some other method for getting the current time)
+    // to calculate how much the animation will progress in a frame — otherwise the animation will run faster
+    // on high refresh-rate screens. For ways to do that, see the examples below.
+    // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
 }
 
 /**
@@ -205,7 +226,7 @@ function nextWaveButton() {
     // Zde můžete provést akce pro novou vlnu hry
     console.log("Clicked Next Wave button");
     // Například spustit novou vlnu balónků, resetovat hru, atd.
-    if(!gameRunning &&
+    if (!gameRunning &&
         !gameOver) {
         console.log("Game Start");
         // restart, play
@@ -225,3 +246,11 @@ document.addEventListener("DOMContentLoaded", function () {
         nextWaveButtonElement.addEventListener("click", nextWaveButton);
     }
 });
+
+function upravRychlost() {
+    if (casPoslednihoOpakovani) {
+        dobaOdPoslednihoOpakovani = Date.now() - casPoslednihoOpakovani;
+        setUpravaRychlosti(dobaOdPoslednihoOpakovani / zakladniIntervalOpakovani);
+    }
+    casPoslednihoOpakovani = Date.now();
+}

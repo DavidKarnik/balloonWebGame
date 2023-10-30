@@ -11,6 +11,8 @@ export let balloons = [];
 
 let exceptionPoppedBalloon = false;
 
+// requestanimationframe() fasting exception
+let upravaRychlosti = 1
 
 /**
  * Create new Balloon and save to the array
@@ -20,7 +22,7 @@ export function createBalloon() {
     // const y = canvas.height + balloonRadius;
     const x = 0 - balloonRadius;
     const y = canvas.height / 2 + balloonRadius;
-    const speed = -1; // Rychlost, kterou se balónky pohybují
+    const speed = 1; // Rychlost, kterou se balónky pohybují
     balloons.push({x, y, speed});
 }
 
@@ -55,7 +57,8 @@ export function drawAllBalloons() {
         exceptionPoppedBalloon = false;
         // calculate position of balloon by function
         balloons[i].y = calculateBalloonYPosition(balloons[i].x);
-        balloons[i].x -= balloons[i].speed;
+        // TODO upravaRychlosti
+        balloons[i].x += (balloons[i].speed * upravaRychlosti);
         drawBalloon(balloons[i].x, balloons[i].y);
 
         // Detekce kolize s projektily
@@ -91,4 +94,8 @@ export function drawAllBalloons() {
 
 export function clearBalloons() {
     balloons = []
+}
+
+export function setUpravaRychlosti(number) {
+    upravaRychlosti = number;
 }
