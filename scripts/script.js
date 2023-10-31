@@ -10,7 +10,7 @@ import {
     clearBalloons,
     setUpravaRychlosti
 } from "./balloonService.js";
-import {drawPath} from "./pathService.js";
+import {drawPath, drawPathSimpleLine} from "./pathService.js";
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d'); // context of canvas
@@ -121,6 +121,7 @@ function updateGameArea() {
 
     // drawPath -------------------------------------------------------------------------------------
     drawPath();
+    drawPathSimpleLine()
 
     // drawSquare (shop) ----------------------------------------------------------------------------
     drawBuyMenu(ctx, canvas)
@@ -189,6 +190,9 @@ function updateGameArea() {
 canvas.addEventListener('click', (event) => {
     const mouseX = event.clientX;
     const mouseY = event.clientY;
+
+    // console.log("x: " + mouseX)
+    // console.log("y: " + mouseY)
 
     // výpočet lineární transformace pro pohyb projektilu
 
