@@ -1,4 +1,5 @@
 import {
+    addPointToNonPlaceAbleArray,
     doLogicForGraphicRepresentation,
     drawBuyMenu, drawEntities, startShootingFunction, stopShootingFunction
 } from './entityService.js';
@@ -89,6 +90,9 @@ function drawPath() {
         // draw a line from current cursor position to the provided x,y coordinate
         ctx.lineTo(x, y);
         // alert(" x : " + x + " y : " + y);
+        // !!!!!!!!!! be carefull ... Add points to entity notPlaceabel arr
+        addPointToNonPlaceAbleArray(x,y);
+
     }
     // add stroke to the line -> draw
     ctx.stroke();

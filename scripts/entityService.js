@@ -26,6 +26,9 @@ const shootIntervalIds = [];
 let myMouseX = null;
 let myMouseY = null;
 
+// for track points where entity can not be placed
+const pathNonPlaceAblePoints = [];
+
 /**
  * Draw entity buy square menu
  * @param ctxMain - canvas context
@@ -103,6 +106,10 @@ canvas.addEventListener('click', (event) => {
         // new Entity placed
         let x = mouseX;
         let y = mouseY;
+        // Can be entity place ? -> no -> return and do nothing
+        if (!canBeEntityPlace(x, y)) {
+            return;
+        }
         let type = selectedEntity;
         // range by type
         let range = 0;
@@ -128,10 +135,9 @@ canvas.addEventListener('click', (event) => {
         // reset
         selectedEntity = null;
     }
-        // Zde můžete zjistit, která entita byla vybrána na základě pozice kliku
-    // selectedEntity se přepíše <---
+    // else if (isEntityClicked()) -> selectedEntity se přepíše
     else if (isEntityClicked(mouseX, mouseY)) {
-        // selectedEntity = entities[/* index vybrané entity */];
+        //
     }
 });
 
@@ -360,6 +366,11 @@ export function doLogicForGraphicRepresentation() {
                 color = 'grey'
                 break;
         }
+        // TODO Can be entity place ? -> no ? -> Red color
+        if (!canBeEntityPlace(myMouseX, myMouseY)) {
+            color = 'red'
+            // console.log("Entity can not be placed !")
+        }
         // draw entity
         drawRange(ctx, myMouseX, myMouseY, range);
         ctx.beginPath();
@@ -368,4 +379,55 @@ export function doLogicForGraphicRepresentation() {
         ctx.fill();
         ctx.closePath();
     }
+}
+
+// TODO Can be entity places ?
+// Can not be placed because :
+// - placing on balloon route
+// - placing on Entity shop
+// TODO fix responsive entity shop (update coordinates of *clicked shop ?* )
+// - placing too close to the other placed entity
+
+// TODO save array of unplaceable points <-
+
+export function addPointToNonPlaceAbleArray(x, y) {
+    const point = {x, y}; // Vytvořte objekt s x a y souřadnicemi
+    // Zkontrolujte, zda bod již existuje v poli pathPoints
+    if (!isPointInArray(pathNonPlaceAblePoints, point)) {
+        pathNonPlaceAblePoints.push(point); // Přidejte tento objekt do pole pathPoints, pokud je jedinečný
+    }
+}
+
+function isPointInArray(arr, point) {
+    // Kontrola, zda bod již existuje v poli
+    return arr.some(existingPoint => existingPoint.x === point.x && existingPoint.y === point.y);
+    // arr.some(callback(a,b),args) -> je metoda, která se používá k ověření, zda alespoň jeden prvek pole splňuje
+    // určitou podmínku, která je definována jako funkce.
+}
+
+/**
+ * Funkce pro ověření umístění entity
+ * @param x - souřadnice x pro umísťovanou entitu
+ * @param y - souřadnice y pro umísťovanou entitu
+ * @return {boolean} - (true/false) mohu/nemohu Entitu umístit
+ */
+function canBeEntityPlace(x, y) {
+    let minOffset = 40;
+    // nemohu položit entitu na jinou už položenou entitu
+    for (const entity of entities) {
+        const distance = Math.sqrt((x - entity.x) ** 2 + (y - entity.y) ** 2);
+        if (distance < minOffset) {
+            return false; // Entity je příliš blízko
+        }
+    }
+
+    // Projdeme všechny body, kde nelze umisťovat entity
+    for (const nonPlaceablePoint of pathNonPlaceAblePoints) {
+        const distance = Math.sqrt((x - nonPlaceablePoint.x) ** 2 + (y - nonPlaceablePoint.y) ** 2);
+        if (distance < minOffset) {
+            return false;
+        }
+    }
+
+    return true; // Entity může být umístěna
 }
