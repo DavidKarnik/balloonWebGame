@@ -1,17 +1,16 @@
 import {
-    addPointToNonPlaceAbleArray,
     doLogicForGraphicRepresentation,
     drawBuyMenu, drawEntities, startShootingFunction, stopShootingFunction
 } from './entityService.js';
 import {dealDamage, drawCastle, drawHealthBar, getCurrentHealth, resetHealth} from "./healthService.js";
 import {
     drawAllBalloons,
-    calculateBalloonYPosition,
     createBalloon,
     balloons,
     clearBalloons,
     setUpravaRychlosti
 } from "./balloonService.js";
+import {drawPath} from "./pathService.js";
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d'); // context of canvas
@@ -70,33 +69,6 @@ function drawProjectile(x, y) {
     ctx.closePath();
 }
 
-/**
- * Draw Path for graphical visualisation
- */
-function drawPath() {
-    let counter = 0, x = 0, y = 180;
-    //100 iterations
-    const increase = 90 / 180 * Math.PI / 10;
-    let i;
-    let pathWidth = canvas.width + (0.01 * canvas.width);
-    for (i = 0; i <= pathWidth; i += 10) {
-        // place the cursor from the point the line should be started
-        ctx.moveTo(x, y);
-        x = i;
-        // amplitude
-        y = calculateBalloonYPosition(x);
-        counter += increase;
-        ctx.lineWidth = 2;
-        // draw a line from current cursor position to the provided x,y coordinate
-        ctx.lineTo(x, y);
-        // alert(" x : " + x + " y : " + y);
-        // !!!!!!!!!! be carefull ... Add points to entity notPlaceabel arr
-        addPointToNonPlaceAbleArray(x,y);
-
-    }
-    // add stroke to the line -> draw
-    ctx.stroke();
-}
 
 /**
  * Print Wave number
@@ -133,7 +105,7 @@ function updateGameArea() {
         stopShootingFunction();
         gameOver = true
         return;
-    } else if(balloons.length === 0) {
+    } else if (balloons.length === 0) {
         // všechny balóny zničeny
         gameRunning = false
     }
