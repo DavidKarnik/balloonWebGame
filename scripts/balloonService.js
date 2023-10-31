@@ -7,13 +7,13 @@ const ctx = canvas.getContext('2d'); // context of canvas
 
 const balloonRadius = 30;
 
+// seznam všech balloons
 export let balloons = [];
-
 let exceptionPoppedBalloon = false;
 
 // requestanimationframe() fasting exception
 let upravaRychlosti = 1
-
+// rychlost vykreslování
 let speed = 1
 
 /**
@@ -54,6 +54,9 @@ export function calculateBalloonYPosition(x) {
 }
 
 
+/**
+ * Funkce pro vykreslení VŠECH balonu do canvasu (z pole balloons[])
+ */
 export function drawAllBalloons() {
     for (let i = 0; i < balloons.length; i++) {
         exceptionPoppedBalloon = false;
@@ -63,24 +66,6 @@ export function drawAllBalloons() {
         // balloons[i].x += (balloons[i].speed * upravaRychlosti);
         balloons[i].x += (speed * upravaRychlosti);
         drawBalloon(balloons[i].x, balloons[i].y);
-
-        // Detekce kolize s projektily
-        // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // for (let j = 0; j < projectiles.length; j++) {
-        //     const dx = balloons[i].x - projectiles[j].x;
-        //     const dy = balloons[i].y - projectiles[j].y;
-        //     const distance = Math.sqrt(dx * dx + dy * dy);
-        //
-        //     if (distance < balloonRadius + projectileRadius) {
-        //         // smazat konkretní entity z pole .splice(index od, kolik)
-        //         balloons.splice(i, 1);
-        //         projectiles.splice(j, 1);
-        //         cash++;
-        //         i--; // o balonek méně
-        //         exceptionPoppedBalloon = true;
-        //         break;
-        //     }
-        // }
 
         // Exception - balloon[i] already deleted in this loop -> undefined ------------------------
         if (!exceptionPoppedBalloon) {
@@ -95,14 +80,25 @@ export function drawAllBalloons() {
     }
 }
 
+/**
+ * Clear balloons[] array -> restart -> no balloons
+ */
 export function clearBalloons() {
     balloons = []
 }
 
+/**
+ * Funkce pro nastavení upravaRychlosti kvůli requestAnimationFrame()
+ * @param number - číslo pro úpravu rychlosti (newSpeed = speed * number)
+ */
 export function setUpravaRychlosti(number) {
     upravaRychlosti = number;
 }
 
+/**
+ * Funkce pro set up rychlosti - zrychlování/zpomalování vykreslování
+ * @param number - speed
+ */
 export function setSpeed(number) {
     speed = number;
 }

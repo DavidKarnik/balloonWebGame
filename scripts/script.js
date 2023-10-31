@@ -94,6 +94,12 @@ function drawPath() {
     ctx.stroke();
 }
 
+/**
+ * Print Wave number
+ * @param ctx - canvas context
+ * @param canvas - canvas
+ * @param level - Wave level to print
+ */
 function printWave(ctx, canvas, level) {
     let x = canvas.width - 130;
     let y = 40;
@@ -110,7 +116,7 @@ function updateGameArea() {
     // Pokud je requestAnimationFrame() rychlejší nebo pomalejší
     // než předpokládáme, přizpůsobíme posun tak, aby byl vždy stejný.
     fixGameSpeed()
-
+    gameRunning = true
     // GAME variables -------------------------------------------------------------------------------
     let xH = canvas.width / 2; // Pozice X health baru
     let yH = 30; // Pozice Y health baru
@@ -123,6 +129,9 @@ function updateGameArea() {
         stopShootingFunction();
         gameOver = true
         return;
+    } else if(balloons.length === 0) {
+        // všechny balóny zničeny
+        gameRunning = false
     }
 
     // Refresh window parameters if changed
@@ -223,6 +232,9 @@ canvas.addEventListener('click', (event) => {
 
 // play --------------------------------------------------------------------------------------------
 
+/**
+ * Next wave button pushed
+ */
 function nextWaveButton() {
     // Zde můžete provést akce pro novou vlnu hry
     console.log("Clicked Next Wave button");
@@ -239,7 +251,9 @@ function nextWaveButton() {
     }
 }
 
-// Připojení funkce k tlačítku po načtení stránky
+/**
+ * Připojení funkce k tlačítku po načtení stránky
+ */
 document.addEventListener("DOMContentLoaded", function () {
     const nextWaveButtonElement = document.getElementById("nextWaveButton");
 
@@ -248,6 +262,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+/**
+ * Funkce pro úpravu rychlosti vykreslování objektů v canvasu hry
+ * -> nutno po použití funkce requestAnimationFrame()
+ */
 function fixGameSpeed() {
     if (casPoslednihoOpakovani) {
         dobaOdPoslednihoOpakovani = Date.now() - casPoslednihoOpakovani;
