@@ -6,8 +6,7 @@ html, body {
     overflow: hidden;
     /*background-color: #f0f0f0;*/
     background: linear-gradient(to right top, #c2c6ce, #a2d4e7, #79e4dd, #91edaa, #dde86b);
-    font-family: "Arial", sans-serif; /* Zde můžete změnit název fontu podle své preference */
-    font-size: 24px;
+    font-family: 'Games', sans-serif;
 }
 
 canvas {
@@ -38,17 +37,26 @@ canvas {
 }
 
 #menu h1 {
-    font-size: 35px;
+    font-size: 50px;
+    margin-bottom: 0;
+}
+
+#menu h2 {
+    /*font-size: 20px;*/
+    margin-bottom: 50px;
 }
 
 #startButton {
+    /*barva podkladu*/
     background-color: #4CAF50;
+    /*barva písma*/
     color: white;
-    padding: 20px 40px;
+    padding: 15px 100px;
     border: none;
     cursor: pointer;
     font-size: 24px;
     border-radius: 5px;
+    font-family: 'Games', sans-serif;
 }
 
 #startButton:hover {
