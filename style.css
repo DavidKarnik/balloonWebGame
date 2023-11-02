@@ -6,6 +6,8 @@ html, body {
     overflow: hidden;
     /*background-color: #f0f0f0;*/
     background: linear-gradient(to right top, #c2c6ce, #a2d4e7, #79e4dd, #91edaa, #dde86b);
+    font-family: "Arial", sans-serif; /* Zde můžete změnit název fontu podle své preference */
+    font-size: 24px;
 }
 
 canvas {
@@ -25,5 +27,31 @@ canvas {
     right: 20px; /* Odsazení zprava */
     width: 100px; /* Šířka tlačítka */
     height: 50px; /* Výška tlačítka */
+}
+
+#menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#menu h1 {
+    font-size: 35px;
+}
+
+#startButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px 40px;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    border-radius: 5px;
+}
+
+#startButton:hover {
+    background-color: #357935; /* Nová barva při hoveru */
 }
 

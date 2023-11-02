@@ -264,12 +264,15 @@ function fixGameSpeed() {
 // Funkce pro zobrazení hry a skrytí tlačítka "Start"
 function showGame() {
     // Skryj tlačítko "Start"
-    const startButton = document.getElementById('startButton');
-    startButton.style.display = 'none';
+    const startMenu = document.getElementById('menu');
+    startMenu.style.display = 'none';
 
     // Zobraz herní canvas
     const theGame = document.getElementById('theGame');
     theGame.style.display = 'block';
+
+    // start Wave -> Game
+    nextWaveButton()
 }
 
 // Přidejte obsluhu kliknutí na tlačítko "Start"
