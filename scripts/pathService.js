@@ -6,6 +6,9 @@ const ctx = canvas.getContext('2d'); // context of canvas
 
 const pathTile = new Image();
 pathTile.src = 'img/pathTitle.png';
+// pathTile.src = 'img/castle1.png';
+
+// const pattern = ctx.createPattern(pathTile, "repeat");
 
 // Velikost dlaždice cesty
 const tileSize = 50;
@@ -45,3 +48,45 @@ export function drawPathSimpleLine() {
     ctx.stroke();
 }
 
+export function maskMap() {
+    let thickness = 25;
+    const canvasWidth = ctx.canvas.width;
+    const canvasHeight = ctx.canvas.height;
+
+    ctx.beginPath();
+
+    for (let x = 0; x <= canvasWidth + 10; x += 10) {
+        const y = calculateBalloonYPosition(x) - thickness;
+
+        if (x === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+    }
+
+    // Vykreslení dolní hrany lichoběžníku
+    for (let x = canvasWidth + 10; x >= -10; x -= 10) {
+        const y = calculateBalloonYPosition(x) + thickness;
+
+        ctx.lineTo(x, y);
+    }
+
+    // Uzavření cesty
+    ctx.closePath();
+
+    // Vyplnění lichoběžníku žlutou barvou
+    ctx.fillStyle = '#e0a502';
+    ctx.fill();
+}
+
+// Add Points ----------------------------
+function addPointsOnSimplePath() {
+    let pathWidth = canvas.width + (0.01 * canvas.width);
+    for (let i = 0; i <= pathWidth; i += 10) {
+        addPointToNonPlaceAbleArray(i, calculateBalloonYPosition(i));
+    }
+}
+
+// Add Points ----------------------------
+addPointsOnSimplePath()

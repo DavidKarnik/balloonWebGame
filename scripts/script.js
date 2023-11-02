@@ -1,4 +1,5 @@
 import {
+    addPointToNonPlaceAbleArray,
     doLogicForGraphicRepresentation,
     drawBuyMenu, drawEntities, startShootingFunction, stopShootingFunction
 } from './entityService.js';
@@ -8,12 +9,15 @@ import {
     createBalloon,
     balloons,
     clearBalloons,
-    setUpravaRychlosti
+    setUpravaRychlosti, calculateBalloonYPosition
 } from "./balloonService.js";
-import {drawPath, drawPathSimpleLine} from "./pathService.js";
+import {drawPath, drawPathSimpleLine, maskMap} from "./pathService.js";
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d'); // context of canvas
+
+// const backGroundCanvas = document.getElementById('backGroundCanvas');
+// const bgCtx = backGroundCanvas.getContext('2d');
 
 const projectileRadius = 5;
 let projectiles = [];
@@ -119,9 +123,11 @@ function updateGameArea() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    maskMap();
+
     // drawPath -------------------------------------------------------------------------------------
-    drawPath();
-    drawPathSimpleLine()
+    // drawPath();
+    // drawPathSimpleLine()
 
     // drawSquare (shop) ----------------------------------------------------------------------------
     drawBuyMenu(ctx, canvas)
@@ -254,3 +260,18 @@ function fixGameSpeed() {
     }
     casPoslednihoOpakovani = Date.now();
 }
+
+// Funkce pro zobrazení hry a skrytí tlačítka "Start"
+function showGame() {
+    // Skryj tlačítko "Start"
+    const startButton = document.getElementById('startButton');
+    startButton.style.display = 'none';
+
+    // Zobraz herní canvas
+    const theGame = document.getElementById('theGame');
+    theGame.style.display = 'block';
+}
+
+// Přidejte obsluhu kliknutí na tlačítko "Start"
+const startButton = document.getElementById('startButton');
+startButton.addEventListener('click', showGame);

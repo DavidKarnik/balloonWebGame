@@ -5,9 +5,14 @@
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
-        <canvas id="gameCanvas"></canvas>
-        <button id="nextWaveButton">Start Next Wave</button>
-<!--        <img id="castle" src="/img/castle1.jpg" alt="obr" style="display: none;">-->
-        <script type="module" src="scripts/script.js"></script>
+        <div id="theGame">
+            <canvas id="gameCanvas"></canvas>
+            <button id="nextWaveButton">Start Next Wave</button>
+            <script type="module" src="scripts/script.js"></script>
+        </div>
+        <div id="menu">
+            <h1>Vítejte ve hře</h1>
+            <button id="startButton">Start</button>
+        </div>
     </body>
 </html>
