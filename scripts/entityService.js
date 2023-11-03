@@ -44,6 +44,11 @@ export function drawBuyMenu(ctxMain, canvasMain) {
 
     const ballColors = ['green', 'blue', 'orange', 'black'];
 
+    // ctx.font = '30px Arial';
+    // ctx.fillStyle = 'black';
+    // ctx.fillText('Cash: ' + cash, 20, 40);
+
+    let price = 10;
     // nákupní lišta (Čtverce)
     for (let i = 0; i < 4; i++) {
         // odsazení
@@ -51,8 +56,15 @@ export function drawBuyMenu(ctxMain, canvasMain) {
         let y = canvasMain.height - squareSize - 10;
 
         drawSquare(ctxMain, x, y, squareSize, ballColors[i]);
-
         shopEntity.push({x, y, squareSize});
+
+        // draw price
+        ctx.font = '30px Arial';
+        ctx.fillStyle = 'green';
+        let priceX = x + (squareSize / 2) - 25
+        let priceY = y + (squareSize) - 5
+        ctx.fillText('' + price + ' $', priceX, priceY);
+        price += 10;
     }
 
     // Vykreslení entit na nákupním menu
