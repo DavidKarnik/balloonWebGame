@@ -12,19 +12,13 @@ import {
     setUpravaRychlosti, calculateBalloonYPosition
 } from "./balloonService.js";
 import {drawPath, drawPathSimpleLine, maskMap} from "./pathService.js";
+import {printMoney} from "./moneyService.js";
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d'); // context of canvas
 
-// const backGroundCanvas = document.getElementById('backGroundCanvas');
-// const bgCtx = backGroundCanvas.getContext('2d');
-
 const projectileRadius = 5;
 let projectiles = [];
-
-// Player score
-// TODO add buy logic for entities
-let cash = 30;
 
 let level = 5;
 
@@ -121,20 +115,21 @@ function updateGameArea() {
     startX = canvas.width / 2;
     startY = canvas.height;
 
+    // clear Canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    maskMap();
 
     // drawPath -------------------------------------------------------------------------------------
     // drawPath();
     // drawPathSimpleLine()
+    maskMap();
 
-    // drawSquare (shop) ----------------------------------------------------------------------------
+    // drawShopMenu (shop) ----------------------------------------------------------------------------
     drawBuyMenu(ctx, canvas)
 
+    // draw All Entities (Turrets) ----------------------------------------------------------------------------
     drawEntities(ctx)
 
-    // drawCastle and HealthBar ---------------------------------------------------------------------
+    // drawHealthBar ---------------------------------------------------------------------
     drawHealthBar(ctx, xH, yH)
 
     // Vykreslit balónky ----------------------------------------------------------------------------
@@ -142,7 +137,6 @@ function updateGameArea() {
 
     // start async function for entity shooting
     startShootingFunction()
-
 
     // Projectile touch the wall ? -------------------------------------------------------------
     for (let j = 0; j < projectiles.length; j++) {
@@ -173,9 +167,7 @@ function updateGameArea() {
     }
 
     // Write score info ----------------------------------------------------------------------------
-    ctx.font = '30px Arial';
-    ctx.fillStyle = 'black';
-    ctx.fillText('Cash: ' + cash, 20, 40);
+    printMoney(ctx, 20, 40);
 
     printWave(ctx, canvas, level);
 

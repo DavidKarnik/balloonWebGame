@@ -15,6 +15,11 @@ let shopEntity = [
 
 let entities = [
     // {x,y,range,type,level,damage,fireRate}
+    // entity.type...
+    // 0 - 
+    // 1 -
+    // 2 -
+    // 3 -
 ];
 
 // const projectileRadius = 5;
@@ -43,10 +48,6 @@ export function drawBuyMenu(ctxMain, canvasMain) {
     const startSquareX = ((canvasMain.width - totalWidth) / 2) - (padding * 2);
 
     const ballColors = ['green', 'blue', 'orange', 'black'];
-
-    // ctx.font = '30px Arial';
-    // ctx.fillStyle = 'black';
-    // ctx.fillText('Cash: ' + cash, 20, 40);
 
     let price = 10;
     // nákupní lišta (Čtverce)
