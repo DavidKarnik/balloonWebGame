@@ -216,8 +216,8 @@ function drawRange(ctx, x, y, range) {
     ctx.beginPath();
     ctx.arc(x, y, range, 0, 2 * Math.PI, false); // Vykreslení prázdného kruhu
     ctx.lineWidth = 2; // Šířka čáry
-    ctx.strokeStyle = 'black'; // Barva obrysu (černá)
-    ctx.setLineDash([5, 15]); // Čárkovaný obrys
+    ctx.strokeStyle = 'grey'; // Barva čar
+    ctx.setLineDash([8, 15]); // Čárkovaný obrys
     ctx.stroke(); // Vykreslení obrysu
     ctx.closePath();
     ctx.setLineDash([]); // Resetovat čárkovaný obrys pro další vykreslování
@@ -275,6 +275,9 @@ function drawLine(ctx, xStart, yStart, xEnd, yEnd) {
 
 // ----------------------------------------------------------------------------------------------
 
+/**
+ * Zahájení asynchronní střelby, přidání střelby do pole intervalů
+ */
 export function startShootingFunction() {
 // Spustit intervaly
     for (const entity of entities) {
@@ -288,7 +291,11 @@ export function startShootingFunction() {
     }
 }
 
-// Funkce pro střelbu jedné entity
+/**
+ * Funkce pro střelbu jedné entity - asynchronní
+ * @param entity - Entity object
+ * @return {Promise<void>}
+ */
 async function shootEntity(entity) {
     let closestBalloon = null;
     let distanceClosest = 999;
@@ -305,11 +312,15 @@ async function shootEntity(entity) {
         // Střelba balónu, pokud není null
         if (closestBalloon !== null) {
             drawLine(ctx, entity.x, entity.y, balloons[closestBalloon].x, balloons[closestBalloon].y);
+            // console.log("shoot")
             balloons.splice(closestBalloon, 1);
         }
     }
 }
 
+/**
+ * Smazání intervalů ze seznamu pro ukončení asynchronní střelby
+ */
 export function stopShootingFunction() {
     // Zastavit intervaly střelby a reset
     for (const intervalId of shootIntervalIds) {
@@ -366,7 +377,7 @@ export function doLogicForGraphicRepresentation() {
                 color = 'grey'
                 break;
         }
-        // TODO Can be entity place ? -> no ? -> Red color
+        // Can be entity place ? -> no ? -> Red color
         if (!canBeEntityPlace(myMouseX, myMouseY)) {
             color = 'red'
             // console.log("Entity can not be placed !")

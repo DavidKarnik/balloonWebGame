@@ -5,7 +5,9 @@ html, body {
     padding: 0;
     overflow: hidden;
     /*background-color: #f0f0f0;*/
-    background: linear-gradient(to right top, #c2c6ce, #a2d4e7, #79e4dd, #91edaa, #dde86b);
+    /*background: linear-gradient(to right top, #c2c6ce, #a2d4e7, #79e4dd, #91edaa, #dde86b);*/
+    background: url("./img/greenBackground.avif" ) no-repeat;
+    background-size: cover;
     font-family: 'Games', sans-serif;
 }
 

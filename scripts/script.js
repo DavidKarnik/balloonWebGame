@@ -140,7 +140,7 @@ function updateGameArea() {
     // Vykreslit balónky ----------------------------------------------------------------------------
     drawAllBalloons()
 
-    // start async function
+    // start async function for entity shooting
     startShootingFunction()
 
 
@@ -270,6 +270,10 @@ function showGame() {
     // Zobraz herní canvas
     const theGame = document.getElementById('theGame');
     theGame.style.display = 'block';
+
+    // Změna herního backgroundu
+    const body = document.body;
+    body.style.background = 'linear-gradient(to right top, #c2c6ce, #a2d4e7, #79e4dd, #91edaa, #dde86b)'
 
     // start Wave -> Game
     nextWaveButton()
