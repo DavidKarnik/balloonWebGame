@@ -14,6 +14,8 @@ My project of web game using just .html .css and plain .js
     │   ├── balloonService.js
     │   ├── entityService.js
     │   ├── healthService.js
+    │   ├── moneyService.js
+    │   ├── pathService.js
     │   └── script.js
     ├── .gitignore
     ├── README.md
